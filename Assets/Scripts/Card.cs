@@ -12,11 +12,11 @@ public enum SpecialNumber {
 }
 public class Card {
 
-    public int suit{get; set; }
-    public int number{get; set; }
+    public int Suit{get; set; }
+    public int Number{get; set; }
 
     public Card(int suit, int number) {
-        this.suit = suit;
-        this.number = number;
+        Suit = suit;
+        Number = number;
     }
 }

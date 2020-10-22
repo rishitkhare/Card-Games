@@ -29,11 +29,11 @@ public class CardStack {
     */
 
     public int GetCardSuit(int index) {
-        return cards[index].suit;
+        return cards[index].Suit;
     }
 
     public int GetCardNumber(int index) {
-        return cards[index].number;
+        return cards[index].Number;
     }
 
     //cards are removed from deck when taken
