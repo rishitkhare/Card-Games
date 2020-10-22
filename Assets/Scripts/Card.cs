@@ -5,9 +5,9 @@
     Diamonds
 }
 public enum SpecialNumber {
-    King = 11,
+    Jack = 11,
     Queen = 12,
-    Jack = 13,
+    King = 13,
     Ace = 0
 }
 public class Card {
@@ -18,5 +18,10 @@ public class Card {
     public Card(int suit, int number) {
         Suit = suit;
         Number = number;
+    }
+
+    public int CompareTo(Card other)
+    {
+        return this.number - other.number;
     }
 }

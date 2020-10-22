@@ -7,10 +7,10 @@ public class CardStack {
     #region Fields and Constructor
 
     private List<Card> cards;
-    private bool isFaceUp;
+    public bool IsFaceUp { get; set; }
 
     public CardStack(bool isFaceUp) {
-        this.isFaceUp = isFaceUp;
+        IsFaceUp = isFaceUp;
         cards = new List<Card>();
     }
 
@@ -59,6 +59,19 @@ public class CardStack {
 
     public void AddCardToBottom(Card newCard) {
         cards.Add(newCard);
+    }
+
+    // sort by number OR suit and number
+    public List<Card> SortStackBySuit(List<Card> cards) {
+        if (cards.Count <= 1) {
+            return cards;
+        }
+
+        return null;
+    }
+
+    public List<Card> SortStackByNumber(List<Card> cards) {
+        return null;
     }
 
     #endregion
