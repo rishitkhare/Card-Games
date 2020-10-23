@@ -1,27 +1,50 @@
-﻿public enum Suit {
-    Spades,
-    Clubs,
-    Hearts,
-    Diamonds
+﻿using System;
+
+public enum Suit {
+    Spades = 0,
+    Clubs = 1,
+    Hearts = 2,
+    Diamonds = 3
 }
-public enum SpecialNumber {
-    Jack = 11,
-    Queen = 12,
-    King = 13,
-    Ace = 0
+public enum Rank {
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
+    Ten = 10,
+    Jack,
+    Queen,
+    King,
+    Ace
 }
 public class Card {
 
-    public int Suit{get; set; }
-    public int Number{get; set; }
+    public Suit Suit{get; set; }
+    public Rank Rank{get; set; }
 
-    public Card(int suit, int number) {
+    public Card(Suit suit, Rank rank) {
         Suit = suit;
-        Number = number;
+        Rank = rank;
     }
 
-    public int CompareTo(Card other)
-    {
-        return this.number - other.number;
+    override
+    public string ToString() {
+        if((int) Rank <= 10) {
+            return (int) Rank + " of " + Suit;
+        }
+        //else
+        return Rank + " of " + Suit;
+    }
+    
+    public int RankCompareTo(Card other) {
+        return (int) Rank - (int) other.Rank;
+    }
+
+    public int SuitCompareTo(Card other) {
+        return (int)Suit - (int)other.Suit;
     }
 }
