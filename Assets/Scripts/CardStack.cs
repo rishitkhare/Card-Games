@@ -6,7 +6,7 @@ public class CardStack {
 
     #region Fields and Constructor
 
-    private List<Card> cards;
+    protected List<Card> cards;
     public bool IsFaceUp { get; set; }
 
     public CardStack(bool isFaceUp) {
@@ -42,7 +42,7 @@ public class CardStack {
     }
 
     public int GetCardNumber(int index) {
-        return (int) cards[index].Rank;
+        return cards[index].Rank;
     }
 
     //cards are removed from deck when taken
@@ -51,6 +51,16 @@ public class CardStack {
         cards.RemoveAt(index);
 
         return myCard;
+    }
+
+    public int TotalWorth() {
+        int total = 0;
+
+        foreach (Card card in cards) {
+            total += card.Rank;
+        }
+
+        return total;
     }
 
     public Card TakeTopCard() { return TakeCardAt(0); }
