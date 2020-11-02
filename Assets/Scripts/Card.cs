@@ -24,7 +24,7 @@ public enum Rank {
 public class Card {
 
     public Suit Suit { get; }
-    public int Rank { get { return Rank; } }
+    public int Rank { get { return (int) rank; } }
 
     private Rank rank;
 
