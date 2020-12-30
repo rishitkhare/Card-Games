@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RenderCard : MonoBehaviour {
-    public Suit SuitOfRenderedCard;
-    public Rank RankOfRenderedCard;
+    public CardSpriteArray spriteArray;
+    public Card renderedCard;
     public int orderInLayer;
+    public bool isFlipped; //TODO: make this
+
 
     private SpriteRenderer suitRenderer;
     private SpriteRenderer rankRenderer;
@@ -17,9 +19,10 @@ public class RenderCard : MonoBehaviour {
         cardRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    public void SetCardRenderer(Suit suit, Rank rank) {
-        SuitOfRenderedCard = suit;
-        RankOfRenderedCard = rank;
+    private void Update() {
+        //cardRenderer.sprite =
+        suitRenderer.sprite = spriteArray.GetSprite(renderedCard.Suit);
+        rankRenderer.sprite = spriteArray.GetSprite(renderedCard.Rank);
     }
 
     private void UpdateCardRenderer() {

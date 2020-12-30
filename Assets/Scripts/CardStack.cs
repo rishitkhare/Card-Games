@@ -42,7 +42,7 @@ public class CardStack {
     }
 
     public int GetCardNumber(int index) {
-        return cards[index].Rank;
+        return cards[index].rankAsInt;
     }
 
     //cards are removed from deck when taken
@@ -57,7 +57,7 @@ public class CardStack {
         int total = 0;
 
         foreach (Card card in cards) {
-            total += card.Rank;
+            total += card.rankAsInt;
         }
 
         return total;

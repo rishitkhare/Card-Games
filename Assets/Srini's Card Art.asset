@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6814da0f8f7f41999ed0de85e1b4ffe, type: 3}
+  m_Name: Srini's Card Art
+  m_EditorClassIdentifier: 
+  Spades: {fileID: 306548266878468214, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Clubs: {fileID: 0}
+  Hearts: {fileID: 0}
+  Diamonds: {fileID: 0}
+  Two: {fileID: 2703995511047131960, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Three: {fileID: -3933241092062497996, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Four: {fileID: 0}
+  Five: {fileID: 0}
+  Six: {fileID: 0}
+  Seven: {fileID: 0}
+  Eight: {fileID: 0}
+  Nine: {fileID: 0}
+  Ten: {fileID: 0}
+  Jack: {fileID: 0}
+  King: {fileID: 0}
+  Queen: {fileID: 0}
+  Ace: {fileID: -6147035677911538384, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}

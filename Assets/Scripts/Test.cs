@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Test : MonoBehaviour {
+    public RenderCard renderCard;
+
     // Start is called before the first frame update
     void Start() {
         CardStack a = new CardStack(true);
@@ -17,5 +19,8 @@ public class Test : MonoBehaviour {
 
         a.SortByRank();
         Debug.Log(a);
+
+        Card card = new Card(Suit.Spades, Rank.Ace);
+        renderCard.renderedCard = card;
     }
 }

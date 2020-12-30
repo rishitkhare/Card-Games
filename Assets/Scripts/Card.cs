@@ -24,26 +24,26 @@ public enum Rank {
 public class Card {
 
     public Suit Suit { get; }
-    public int Rank { get { return (int) rank; } }
+    public int rankAsInt { get { return (int) Rank; } }
 
-    private Rank rank;
+    public Rank Rank{get; }
 
     public Card(Suit suit, Rank rank) {
         Suit = suit;
-        this.rank = rank;
+        Rank = rank;
     }
 
     override
     public string ToString() {
-        if(Rank <= 10 && Rank != 1) {
-            return Rank + " of " + Suit;
+        if(rankAsInt <= 10 && rankAsInt != 1) {
+            return rankAsInt + " of " + Suit;
         }
         //else
-        return rank + " of " + Suit;
+        return Rank + " of " + Suit;
     }
     
     public int RankCompareTo(Card other) {
-        return Rank - other.Rank;
+        return rankAsInt - other.rankAsInt;
     }
 
     public int SuitCompareTo(Card other) {
