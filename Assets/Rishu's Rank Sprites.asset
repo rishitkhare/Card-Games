@@ -12,20 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6814da0f8f7f41999ed0de85e1b4ffe, type: 3}
   m_Name: Rishu's Rank Sprites
   m_EditorClassIdentifier: 
-  Spades: {fileID: 0}
-  Clubs: {fileID: 0}
-  Hearts: {fileID: 0}
-  Diamonds: {fileID: 0}
-  Two: {fileID: 0}
-  Three: {fileID: 0}
-  Four: {fileID: 0}
-  Five: {fileID: 0}
-  Six: {fileID: 0}
-  Seven: {fileID: 0}
-  Eight: {fileID: 0}
-  Nine: {fileID: 0}
-  Ten: {fileID: 0}
-  Jack: {fileID: 0}
-  King: {fileID: 0}
-  Queen: {fileID: 0}
+  Spades: {fileID: 4102317635545677429, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Clubs: {fileID: 5791814740549592860, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Hearts: {fileID: -5956054631186944698, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Diamonds: {fileID: 6483932118454968899, guid: 77d9bc7fd5a7742df864405e7f98c0a5,
+    type: 3}
+  Two: {fileID: 6014675145688224562, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Three: {fileID: -6761058215792005393, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Four: {fileID: -5649223841094534940, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Five: {fileID: 28524382100730896, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Six: {fileID: -2662850615454019434, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Seven: {fileID: -4820819600752878088, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Eight: {fileID: 6228566294072868261, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Nine: {fileID: 4045438413852693761, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Ten: {fileID: -2069819597131824715, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Jack: {fileID: 2960173903928823324, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  Queen: {fileID: -2205956851617807908, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
+  King: {fileID: 8174248131777051354, guid: 77d9bc7fd5a7742df864405e7f98c0a5, type: 3}
   Ace: {fileID: 0}

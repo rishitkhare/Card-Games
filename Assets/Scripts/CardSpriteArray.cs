@@ -17,8 +17,8 @@ public class CardSpriteArray : ScriptableObject {
     public Sprite Nine;
     public Sprite Ten;
     public Sprite Jack;
-    public Sprite King;
     public Sprite Queen;
+    public Sprite King;
     public Sprite Ace;
 
     public Sprite GetSprite(Rank rank) {
@@ -43,10 +43,10 @@ public class CardSpriteArray : ScriptableObject {
                 return Ten;
             case (Rank.Jack):
                 return Jack;
-            case (Rank.King):
-                return King;
             case (Rank.Queen):
                 return Queen;
+            case (Rank.King):
+                return King;
             case (Rank.Ace):
                 return Ace;
             default:
