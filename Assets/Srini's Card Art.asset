@@ -12,21 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6814da0f8f7f41999ed0de85e1b4ffe, type: 3}
   m_Name: Srini's Card Art
   m_EditorClassIdentifier: 
+  seperateColorSprite: 1
+  Card: {fileID: 5783776618030039071, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Back: {fileID: -7384120447882253873, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Red: {fileID: 3162330630595549326, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Black: {fileID: 1069579314701694664, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Spades: {fileID: 306548266878468214, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Clubs: {fileID: 4477781869648282087, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Hearts: {fileID: -810870345106120956, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Diamonds: {fileID: -6697980045773235204, guid: 425ec31ee74e57d40806a5b0983bc80c,
     type: 3}
-  Two: {fileID: 2703995511047131960, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Three: {fileID: -3933241092062497996, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Four: {fileID: -6697980045773235204, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Five: {fileID: 6042886090413198857, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Six: {fileID: 3982342534526750921, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Seven: {fileID: -6808801297748015154, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Eight: {fileID: -1057296425717343096, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Nine: {fileID: 3000715776348117969, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Ten: {fileID: -5658122547913608130, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Jack: {fileID: 5264037318703407660, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Queen: {fileID: 105486525038922684, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  King: {fileID: 8846368337332211930, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Ace: {fileID: -6147035677911538384, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Two:
+  - {fileID: 2703995511047131960, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Three:
+  - {fileID: -3933241092062497996, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Four:
+  - {fileID: -6697980045773235204, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Five:
+  - {fileID: 6042886090413198857, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Six:
+  - {fileID: 3982342534526750921, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Seven:
+  - {fileID: -6808801297748015154, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Eight:
+  - {fileID: -1057296425717343096, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Nine:
+  - {fileID: 3000715776348117969, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Ten:
+  - {fileID: -5658122547913608130, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Jack:
+  - {fileID: 5264037318703407660, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Queen:
+  - {fileID: 105486525038922684, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  King:
+  - {fileID: 8846368337332211930, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  Ace:
+  - {fileID: -6147035677911538384, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
