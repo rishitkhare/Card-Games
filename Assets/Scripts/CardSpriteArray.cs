@@ -32,6 +32,9 @@ public class CardSpriteArray : ScriptableObject {
     public Sprite[] Ace;
 
     public Sprite GetRankSprite(Card card) {
+        if(card == null) {
+            return null;
+        }
         if (seperateColorSprite || card.Suit == Suit.Spades || card.Suit == Suit.Clubs) {
             switch (card.Rank) {
                 case (Rank.Two):
@@ -41,7 +44,7 @@ public class CardSpriteArray : ScriptableObject {
                 case (Rank.Four):
                     return Four[0];
                 case (Rank.Five):
-                    return Three[0];
+                    return Five[0];
                 case (Rank.Six):
                     return Six[0];
                 case (Rank.Seven):
@@ -74,7 +77,7 @@ public class CardSpriteArray : ScriptableObject {
                 case (Rank.Four):
                     return Four[1];
                 case (Rank.Five):
-                    return Three[1];
+                    return Five[1];
                 case (Rank.Six):
                     return Six[1];
                 case (Rank.Seven):
@@ -101,6 +104,9 @@ public class CardSpriteArray : ScriptableObject {
     }
 
     public Sprite GetSuitSprite(Card card) {
+        if (card == null) {
+            return null;
+        }
         switch(card.Suit) {
             case (Suit.Clubs):
                 return Clubs;
@@ -116,7 +122,7 @@ public class CardSpriteArray : ScriptableObject {
     }
 
     public Sprite GetColorSprite(Card card) {
-        if(seperateColorSprite) {
+        if(seperateColorSprite && card != null) {
             if(card.Suit == Suit.Spades || card.Suit == Suit.Clubs) {
                 return Black;
             }

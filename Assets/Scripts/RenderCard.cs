@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RenderCard : MonoBehaviour {
     public CardSpriteArray spriteArray;
-    public Card renderedCard;
+
+    [HideInInspector]
+    public CardStack cardStack;
+
+
     public int orderInLayer;
     public bool isFlipped;
 
@@ -21,12 +23,43 @@ public class RenderCard : MonoBehaviour {
         cardRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    private void Update() {
-        if(!isFlipped) {
+    void Update() {
+        SetCardLayering();
+        UpdateCardRenderer();
+    }
+
+    public void FlipCard() {
+        isFlipped = !isFlipped;
+        UpdateCardRenderer();
+    }
+
+    private void SetCardLayering() {
+        cardRenderer.sortingOrder = orderInLayer * 4;
+        suitRenderer.sortingOrder = orderInLayer * 4 + 1;
+        colorRenderer.sortingOrder = orderInLayer * 4 + 2;
+        rankRenderer.sortingOrder = orderInLayer * 4 + 3;
+    }
+
+    private void UpdateCardRenderer() {
+        Card topCard;
+        try {
+            topCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0));
+        }
+        catch(System.ArgumentOutOfRangeException) {
+            topCard = null;
+        }
+
+        if(topCard == null) {
+            cardRenderer.sprite = null;
+            suitRenderer.sprite = null;
+            rankRenderer.sprite = null;
+            colorRenderer.sprite = null;
+        }
+        else if (!isFlipped) {
             cardRenderer.sprite = spriteArray.Card;
-            suitRenderer.sprite = spriteArray.GetSuitSprite(renderedCard);
-            rankRenderer.sprite = spriteArray.GetRankSprite(renderedCard);
-            colorRenderer.sprite = spriteArray.GetColorSprite(renderedCard);
+            suitRenderer.sprite = spriteArray.GetSuitSprite(topCard);
+            rankRenderer.sprite = spriteArray.GetRankSprite(topCard);
+            colorRenderer.sprite = spriteArray.GetColorSprite(topCard);
         }
         else {
             cardRenderer.sprite = spriteArray.Back;
@@ -34,9 +67,5 @@ public class RenderCard : MonoBehaviour {
             rankRenderer.sprite = null;
             colorRenderer.sprite = null;
         }
-    }
-
-    private void UpdateCardRenderer() {
-
     }
 }

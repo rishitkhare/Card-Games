@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RenderCard))]
 public class CardStack {
 
     #region Fields and Constructor
@@ -14,17 +15,20 @@ public class CardStack {
         cards = new List<Card>();
     }
 
-    #endregion fields
+
+    #endregion Fields and Constructor
 
 
     #region Accessors
 
     /*
      * NOTE: "GetCard(int index)" method should not exist
-     * in order to prevent accidental duplication; i.e. if the method 
+     * in order to prevent accidental duplication; i.e. if the method
+     * 
      * a.AddCardToTop(b.GetCard(0));
-     * was used for CardStacks a & b, the top card from b would
-     * be duplicated and added to stack a.
+     * 
+     * was called where a and b are of type CardStack, the top card from b
+     * would be duplicated and added to stack a.
     */
     override
     public string ToString() {
@@ -41,16 +45,26 @@ public class CardStack {
         return cards[index].Suit;
     }
 
+    public Rank GetCardRank(int index) {
+        return cards[index].Rank;
+    }
+
     public int GetCardNumber(int index) {
         return cards[index].rankAsInt;
     }
 
-    //cards are removed from deck when taken
+    //cards are removed from deck when taken.
     public Card TakeCardAt(int index) {
-        Card myCard = cards[index];
-        cards.RemoveAt(index);
+        try {
+            Card myCard = cards[index];
+            cards.RemoveAt(index);
 
-        return myCard;
+            return myCard;
+        }
+        catch(ArgumentOutOfRangeException) {
+            //empty deck returns null.
+            return null;
+        }
     }
 
     public int TotalWorth() {
@@ -63,6 +77,8 @@ public class CardStack {
         return total;
     }
 
+    public int NumberOfCards() { return cards.Count; }
+
     public Card TakeTopCard() { return TakeCardAt(0); }
     public Card TakeBottomCard() { return TakeCardAt(cards.Count - 1); }
 
@@ -71,6 +87,7 @@ public class CardStack {
 
     #region Mutators
 
+    //TODO: Generate Joker Cards
     public void GenerateDeck52() {
         foreach(Suit suit in Enum.GetValues(typeof(Suit))) {
             foreach (Rank rank in Enum.GetValues(typeof(Rank))) {
@@ -79,7 +96,6 @@ public class CardStack {
         }
     }
 
-    //TODO: Find built-in shuffle method
     public void Shuffle() {
         System.Random rand = new System.Random();
         List<Card> newCards = new List<Card>();
