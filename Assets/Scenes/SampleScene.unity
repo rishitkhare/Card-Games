@@ -1107,7 +1107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad09e6319f70493dbadf7414b0ff9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 0}
+  textBox: {fileID: 327391056}
 --- !u!1 &1096629052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad09e6319f70493dbadf7414b0ff9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 0}
+  textBox: {fileID: 582067353}
 --- !u!114 &1096629054
 MonoBehaviour:
   m_ObjectHideFlags: 0

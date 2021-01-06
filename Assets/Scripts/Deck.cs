@@ -22,9 +22,15 @@ public class Deck : MonoBehaviour {
 
     void Update() {
         try {
-            textBox.text = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0)).ToString();
+            Suit suit = cardStack.GetCardSuit(0);
+            Rank rank = cardStack.GetCardRank(0);
+            Card cardData = new Card(suit, rank);
+            Debug.Log(cardData);
+
+            textBox.text = cardData.ToString();
         }
         catch(System.ArgumentOutOfRangeException) {
+            Debug.Log("caught!");
             textBox.text = "";
         }
     }
