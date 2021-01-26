@@ -4,7 +4,7 @@ public class RenderCard : MonoBehaviour {
     public CardSpriteArray spriteArray;
 
     [HideInInspector]
-    public CardStack cardStack;
+    public Card renderedCard;
 
 
     public int orderInLayer;
@@ -41,11 +41,12 @@ public class RenderCard : MonoBehaviour {
     }
 
     private void UpdateCardRenderer() {
+        //handles null values
         Card topCard;
         try {
-            topCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0));
+            topCard = new Card(renderedCard.Suit, renderedCard.Rank);
         }
-        catch (System.ArgumentOutOfRangeException) {
+        catch (System.NullReferenceException) {
             topCard = null;
         }
 

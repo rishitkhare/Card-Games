@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(RenderCard))]
@@ -11,7 +12,6 @@ public class CardSelector : MonoBehaviour {
     void Start() {
         render = gameObject.GetComponent<RenderCard>();
         storeCard = new CardStack(true);
-        render.cardStack = storeCard;
     }
 
     void Update() {
@@ -24,6 +24,14 @@ public class CardSelector : MonoBehaviour {
             else {
                 selectedDeck.cardStack.AddCardToTop(storeCard.TakeTopCard());
             }
+        }
+
+
+        try {
+            render.renderedCard = new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0));
+        }
+        catch(ArgumentOutOfRangeException){
+            render.renderedCard = null;
         }
     }
 

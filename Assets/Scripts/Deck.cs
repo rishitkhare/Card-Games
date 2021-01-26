@@ -19,7 +19,6 @@ public class Deck : MonoBehaviour {
         cardStack.AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker));
         cardStack.AddCardToTop(new Card(Suit.RedJoker, Rank.Joker));
         render = gameObject.GetComponent<RenderCard>();
-        render.cardStack = this.cardStack;
     }
 
     void Update() {
@@ -27,13 +26,18 @@ public class Deck : MonoBehaviour {
             Suit suit = cardStack.GetCardSuit(0);
             Rank rank = cardStack.GetCardRank(0);
             Card cardData = new Card(suit, rank);
-            Debug.Log(cardData);
 
             textBox.text = cardData.ToString();
         }
         catch (System.ArgumentOutOfRangeException) {
-            Debug.Log("caught!");
             textBox.text = "";
+        }
+
+        try {
+            render.renderedCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0));
+        }
+        catch (System.ArgumentOutOfRangeException) {
+            render.renderedCard = null;
         }
     }
 
