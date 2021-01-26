@@ -87,13 +87,22 @@ public class CardStack {
 
     #region Mutators
 
-    //TODO: Generate Joker Cards
     public void GenerateDeck52() {
         foreach(Suit suit in Enum.GetValues(typeof(Suit))) {
             foreach (Rank rank in Enum.GetValues(typeof(Rank))) {
-                AddCardToTop(new Card(suit, rank));
+                // suit > 0 means card is not joker
+                if(suit > 0 && rank != Rank.Joker) {
+                    AddCardToTop(new Card(suit, rank));
+                }
             }
         }
+
+    }
+
+    public void GenerateDeck54() {
+        GenerateDeck52();
+        AddCardToTop(new Card(Suit.RedJoker, Rank.Joker));
+        AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker));
     }
 
     public void Shuffle() {

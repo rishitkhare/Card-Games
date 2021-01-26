@@ -24,8 +24,9 @@ public class GoToMouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float timeScale = Time.deltaTime * 60f;
         Vector2 MouseWorldSpace = cam.ScreenToWorldPoint(Input.mousePosition);
-        rotationZ += (previousPosition - MouseWorldSpace).x;
+        rotationZ += (previousPosition - MouseWorldSpace).x * timeScale;
 
         rotationZ *= decelerationFactor;
         if(Mathf.Abs(rotationZ) < 0.1f) {

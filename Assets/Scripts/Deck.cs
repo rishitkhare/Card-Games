@@ -16,6 +16,8 @@ public class Deck : MonoBehaviour {
         cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Eight));
         cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Nine));
         cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Seven));
+        cardStack.AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker));
+        cardStack.AddCardToTop(new Card(Suit.RedJoker, Rank.Joker));
         render = gameObject.GetComponent<RenderCard>();
         render.cardStack = this.cardStack;
     }
@@ -29,7 +31,7 @@ public class Deck : MonoBehaviour {
 
             textBox.text = cardData.ToString();
         }
-        catch(System.ArgumentOutOfRangeException) {
+        catch (System.ArgumentOutOfRangeException) {
             Debug.Log("caught!");
             textBox.text = "";
         }

@@ -45,11 +45,11 @@ public class RenderCard : MonoBehaviour {
         try {
             topCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0));
         }
-        catch(System.ArgumentOutOfRangeException) {
+        catch (System.ArgumentOutOfRangeException) {
             topCard = null;
         }
 
-        if(topCard == null) {
+        if (topCard == null) {
             cardRenderer.sprite = null;
             suitRenderer.sprite = null;
             rankRenderer.sprite = null;

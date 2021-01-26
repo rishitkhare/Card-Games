@@ -17,10 +17,16 @@ MonoBehaviour:
   Back: {fileID: -7384120447882253873, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Red: {fileID: 3162330630595549326, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Black: {fileID: 1069579314701694664, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  JokerRedSprite: {fileID: -7524338978438974862, guid: 425ec31ee74e57d40806a5b0983bc80c,
+    type: 3}
+  JokerBlackSprite: {fileID: -8507903720032933500, guid: 425ec31ee74e57d40806a5b0983bc80c,
+    type: 3}
   Spades: {fileID: 306548266878468214, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Clubs: {fileID: 4477781869648282087, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Hearts: {fileID: -810870345106120956, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Diamonds: {fileID: -8797161953979837671, guid: 425ec31ee74e57d40806a5b0983bc80c,
+    type: 3}
+  JokerSuit: {fileID: 2383204579891352185, guid: 425ec31ee74e57d40806a5b0983bc80c,
     type: 3}
   Two:
   - {fileID: 2703995511047131960, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
@@ -48,3 +54,5 @@ MonoBehaviour:
   - {fileID: 8846368337332211930, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Ace:
   - {fileID: -6147035677911538384, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  JokerRank:
+  - {fileID: 5070411278588496824, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}

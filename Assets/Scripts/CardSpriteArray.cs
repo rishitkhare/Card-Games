@@ -10,11 +10,14 @@ public class CardSpriteArray : ScriptableObject {
 
     public Sprite Red;
     public Sprite Black;
+    public Sprite JokerRedSprite;
+    public Sprite JokerBlackSprite;
 
     public Sprite Spades;
     public Sprite Clubs;
     public Sprite Hearts;
     public Sprite Diamonds;
+    public Sprite JokerSuit;
 
     //Item1 = black, Item2 = red (uses black by default)
     public Sprite[] Two;
@@ -30,6 +33,7 @@ public class CardSpriteArray : ScriptableObject {
     public Sprite[] Queen;
     public Sprite[] King;
     public Sprite[] Ace;
+    public Sprite[] JokerRank;
 
     public Sprite GetRankSprite(Card card) {
         if(card == null) {
@@ -63,6 +67,8 @@ public class CardSpriteArray : ScriptableObject {
                     return King[0];
                 case (Rank.Ace):
                     return Ace[0];
+                case (Rank.Joker):
+                    return JokerRank[0];
                 default:
                     //this will never occur unless we add a new Rank
                     return null;
@@ -96,6 +102,8 @@ public class CardSpriteArray : ScriptableObject {
                     return King[1];
                 case (Rank.Ace):
                     return Ace[1];
+                case (Rank.Joker):
+                    return JokerRank[1];
                 default:
                     //this will never occur unless we add a new Rank
                     return null;
@@ -116,6 +124,10 @@ public class CardSpriteArray : ScriptableObject {
                 return Hearts;
             case (Suit.Spades):
                 return Spades;
+            case (Suit.RedJoker):
+                return JokerSuit;
+            case (Suit.BlackJoker):
+                return JokerSuit;
             default:
                 return null;
         }
@@ -123,7 +135,13 @@ public class CardSpriteArray : ScriptableObject {
 
     public Sprite GetColorSprite(Card card) {
         if(seperateColorSprite && card != null) {
-            if(card.Suit == Suit.Spades || card.Suit == Suit.Clubs) {
+            if(card.Suit == Suit.RedJoker) {
+                return JokerRedSprite;
+            }
+            else if(card.Suit == Suit.BlackJoker) {
+                return JokerBlackSprite;
+            }
+            else if (card.Suit == Suit.Spades || card.Suit == Suit.Clubs) {
                 return Black;
             }
             else {

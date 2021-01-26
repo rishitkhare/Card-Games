@@ -1,12 +1,15 @@
 ﻿using System;
 
 public enum Suit {
-    Spades = 0,
-    Clubs = 1,
-    Hearts = 2,
-    Diamonds = 3
+    RedJoker = -1,
+    BlackJoker = 0,
+    Spades = 1,
+    Clubs = 2,
+    Hearts = 3,
+    Diamonds = 4
 }
 public enum Rank {
+    Joker = 0,
     Two = 2,
     Three = 3,
     Four = 4,
@@ -31,15 +34,24 @@ public class Card {
     public Card(Suit suit, Rank rank) {
         Suit = suit;
         Rank = rank;
+        if((suit <= 0 && rank != Rank.Joker)
+            || (suit > 0 && rank == Rank.Joker)) {
+            throw new ArgumentException();
+        }
     }
 
     override
     public string ToString() {
-        if(rankAsInt <= 10 && rankAsInt != 1) {
-            return rankAsInt + " of " + Suit;
+        if(Rank != Rank.Joker) {
+            if(rankAsInt <= 10 && rankAsInt != 1) {
+                return rankAsInt + " of " + Suit;
+            }
+            //else
+            return Rank + " of " + Suit;
         }
-        //else
-        return Rank + " of " + Suit;
+        else {
+            return "Joker";
+        }
     }
     
     public int RankCompareTo(Card other) {
