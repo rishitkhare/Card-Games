@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public List<Deck> interactableDecks;
-
+    public List<Interactable> interactableDecks;
+    public CardSpriteArray spriteArray;
     public static GameManager gm;
 
     void Start() {

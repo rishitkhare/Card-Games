@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class RenderCard : MonoBehaviour {
-    public CardSpriteArray spriteArray;
+    CardSpriteArray spriteArray;
 
     [HideInInspector]
     public Card renderedCard;
@@ -17,6 +17,7 @@ public class RenderCard : MonoBehaviour {
     private SpriteRenderer cardRenderer;
 
     void Start() {
+        spriteArray = GameManager.gm.spriteArray;
         suitRenderer = transform.Find("Suit").GetComponent<SpriteRenderer>();
         rankRenderer = transform.Find("Rank").GetComponent<SpriteRenderer>();
         colorRenderer = transform.Find("Color").GetComponent<SpriteRenderer>();

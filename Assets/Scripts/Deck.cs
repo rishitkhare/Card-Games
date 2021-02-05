@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Deck : MonoBehaviour {
-    [HideInInspector]
-    public CardStack cardStack;
+public class Deck : Interactable {
 
     RenderCard render;
     public Text textBox;

@@ -16,7 +16,7 @@ public class CardSelector : MonoBehaviour {
 
     void Update() {
         if(Input.GetMouseButtonDown(0)) {
-            Deck selectedDeck = GetSelectedDeck();
+            Interactable selectedDeck = GetSelectedInteractable();
 
             if(storeCard.NumberOfCards() == 0) {
                 storeCard.AddCardToTop(selectedDeck.cardStack.TakeTopCard());
@@ -35,11 +35,11 @@ public class CardSelector : MonoBehaviour {
         }
     }
 
-    private Deck GetSelectedDeck() {
-        Deck result = null;
+    private Interactable GetSelectedInteractable() {
+        Interactable result = null;
         float minDistanceToDeck = -1f;
 
-        foreach(Deck d in GameManager.gm.interactableDecks) {
+        foreach(Interactable d in GameManager.gm.interactableDecks) {
             float distanceToDeck = (d.gameObject.transform.position - transform.position).magnitude;
             if(result == null) {
                 result = d;
