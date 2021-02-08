@@ -29,15 +29,18 @@ public class Card {
     public Suit Suit { get; }
     public int rankAsInt { get { return (int) Rank; } }
 
-    public Rank Rank{get; }
+    public Rank Rank{ get; }
 
-    public Card(Suit suit, Rank rank) {
+    public bool isRed { get; }
+
+    public Card(Suit suit, Rank rank, bool back) {
         Suit = suit;
         Rank = rank;
         if((suit <= 0 && rank != Rank.Joker)
             || (suit > 0 && rank == Rank.Joker)) {
             throw new ArgumentException();
         }
+        isRed = back;
     }
 
     override

@@ -6,7 +6,8 @@ public class CardSpriteArray : ScriptableObject {
     public bool seperateColorSprite;
 
     public Sprite Card;
-    public Sprite Back;
+    public Sprite BackRedSprite;
+    public Sprite BackBlueSprite;
 
     public Sprite Red;
     public Sprite Black;

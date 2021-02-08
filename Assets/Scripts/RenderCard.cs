@@ -45,7 +45,7 @@ public class RenderCard : MonoBehaviour {
         //handles null values
         Card topCard;
         try {
-            topCard = new Card(renderedCard.Suit, renderedCard.Rank);
+            topCard = new Card(renderedCard.Suit, renderedCard.Rank, renderedCard.isRed);
         }
         catch (System.NullReferenceException) {
             topCard = null;
@@ -64,7 +64,14 @@ public class RenderCard : MonoBehaviour {
             colorRenderer.sprite = spriteArray.GetColorSprite(topCard);
         }
         else {
-            cardRenderer.sprite = spriteArray.Back;
+            if (topCard.isRed) {
+                cardRenderer.sprite = spriteArray.BackRedSprite;
+            }
+
+            else {
+                cardRenderer.sprite = spriteArray.BackBlueSprite;
+            }
+
             suitRenderer.sprite = null;
             rankRenderer.sprite = null;
             colorRenderer.sprite = null;

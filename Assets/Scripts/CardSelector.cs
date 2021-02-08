@@ -28,7 +28,7 @@ public class CardSelector : MonoBehaviour {
 
 
         try {
-            render.renderedCard = new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0));
+            render.renderedCard = new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0), storeCard.GetCardBack(0));
         }
         catch(ArgumentOutOfRangeException){
             render.renderedCard = null;

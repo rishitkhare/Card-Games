@@ -6,24 +6,30 @@ public class Deck : Interactable {
 
     RenderCard render;
     public Text textBox;
+    public bool redDeck;
 
     // Start is called before the first frame update
     void Start() {
         cardStack = new CardStack(true);
-        cardStack.AddCardToTop(new Card(Suit.Spades, Rank.Ace));
-        cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Eight));
-        cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Nine));
-        cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Seven));
-        cardStack.AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker));
-        cardStack.AddCardToTop(new Card(Suit.RedJoker, Rank.Joker));
+
+        if (redDeck) {
+            cardStack.GenerateDeck52(true);
+        }
+
+        else {
+            cardStack.GenerateDeck52(false);
+        }
+
         render = gameObject.GetComponent<RenderCard>();
+        render.isFlipped = true;
     }
 
     void Update() {
         try {
             Suit suit = cardStack.GetCardSuit(0);
             Rank rank = cardStack.GetCardRank(0);
-            Card cardData = new Card(suit, rank);
+            bool back = cardStack.GetCardBack(0);
+            Card cardData = new Card(suit, rank, back);
 
             textBox.text = cardData.ToString();
         }
@@ -32,7 +38,7 @@ public class Deck : Interactable {
         }
 
         try {
-            render.renderedCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0));
+            render.renderedCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0), cardStack.GetCardBack(0));
         }
         catch (System.ArgumentOutOfRangeException) {
             render.renderedCard = null;

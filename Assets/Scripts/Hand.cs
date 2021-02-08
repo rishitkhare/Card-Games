@@ -17,11 +17,11 @@ public class Hand : Interactable {
     void Start() {
         cardStack = new CardStack(true);
         renderedCards = new List<RenderCard>();
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight));
-        cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Nine));
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight));
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Nine));
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight));
+        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight, true));
+        cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Ace, true));
+        cardStack.AddCardToTop(new Card(Suit.Spades, Rank.Seven, false));
+        cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Nine, true));
+        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight, false));
     }
 
     // Update is called once per frame
@@ -49,7 +49,7 @@ public class Hand : Interactable {
     private void RenderEachCardInHand() {
         for (int i = 0; i < renderedCards.Count; i++) {
             renderedCards[i].renderedCard = new Card(cardStack.GetCardSuit(i),
-                cardStack.GetCardRank(i));
+                cardStack.GetCardRank(i), cardStack.GetCardBack(i));
             renderedCards[i].orderInLayer = -i;
         }
     }
