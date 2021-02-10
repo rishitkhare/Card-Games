@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seperateColorSprite: 1
   Card: {fileID: 5783776618030039071, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
-  Back: {fileID: -7384120447882253873, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
+  BackRedSprite: {fileID: -7384120447882253873, guid: 425ec31ee74e57d40806a5b0983bc80c,
+    type: 3}
+  BackBlueSprite: {fileID: 5262959505015819731, guid: 425ec31ee74e57d40806a5b0983bc80c,
+    type: 3}
   Red: {fileID: 3162330630595549326, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   Black: {fileID: 1069579314701694664, guid: 425ec31ee74e57d40806a5b0983bc80c, type: 3}
   JokerRedSprite: {fileID: -7524338978438974862, guid: 425ec31ee74e57d40806a5b0983bc80c,

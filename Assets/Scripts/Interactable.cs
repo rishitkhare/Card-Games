@@ -4,4 +4,6 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour {
     public CardStack cardStack;
+
+    public abstract Card GetCard(Vector2 point);
 }

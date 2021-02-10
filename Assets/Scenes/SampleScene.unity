@@ -1109,6 +1109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textBox: {fileID: 327391056}
+  redDeck: 1
 --- !u!1 &1096629052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textBox: {fileID: 582067353}
+  redDeck: 0
 --- !u!114 &1096629054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1341,7 +1343,7 @@ MonoBehaviour:
   handWidth: 19.3
   maxRotation: -33.1
   rotationOffset: 0
-  anchor: {x: 0, y: -9.12, z: 0}
+  anchor: {x: 0, y: -15.75, z: 0}
 --- !u!4 &1488438887
 Transform:
   m_ObjectHideFlags: 0
@@ -1350,7 +1352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488438885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -9.2, z: 0}
+  m_LocalPosition: {x: 0.02, y: -11.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

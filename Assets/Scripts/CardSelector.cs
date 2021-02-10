@@ -7,11 +7,13 @@ using UnityEngine;
 public class CardSelector : MonoBehaviour {
     RenderCard render;
     CardStack storeCard;
+    Camera cam;
 
     // Start is called before the first frame update
     void Start() {
         render = gameObject.GetComponent<RenderCard>();
         storeCard = new CardStack(true);
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Update() {
@@ -19,7 +21,7 @@ public class CardSelector : MonoBehaviour {
             Interactable selectedDeck = GetSelectedInteractable();
 
             if(storeCard.NumberOfCards() == 0) {
-                storeCard.AddCardToTop(selectedDeck.cardStack.TakeTopCard());
+                storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
             }
             else {
                 selectedDeck.cardStack.AddCardToTop(storeCard.TakeTopCard());

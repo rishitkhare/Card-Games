@@ -45,7 +45,7 @@ public class RenderCard : MonoBehaviour {
         //handles null values
         Card topCard;
         try {
-            topCard = new Card(renderedCard.Suit, renderedCard.Rank, renderedCard.isRed);
+            topCard = new Card(renderedCard.Suit, renderedCard.Rank, renderedCard.DeckColor);
         }
         catch (System.NullReferenceException) {
             topCard = null;
@@ -64,7 +64,7 @@ public class RenderCard : MonoBehaviour {
             colorRenderer.sprite = spriteArray.GetColorSprite(topCard);
         }
         else {
-            if (topCard.isRed) {
+            if (topCard.DeckColor == DeckColor.Red) {
                 cardRenderer.sprite = spriteArray.BackRedSprite;
             }
 

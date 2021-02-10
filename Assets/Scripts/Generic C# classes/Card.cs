@@ -8,6 +8,11 @@ public enum Suit {
     Hearts = 3,
     Diamonds = 4
 }
+public enum DeckColor {
+    Red,
+    Blue
+}
+
 public enum Rank {
     Joker = 0,
     Two = 2,
@@ -31,17 +36,19 @@ public class Card {
 
     public Rank Rank{ get; }
 
-    public bool isRed { get; }
+    public DeckColor DeckColor { get; }
 
-    public Card(Suit suit, Rank rank, bool back) {
+    public Card(Suit suit, Rank rank, DeckColor back) {
         Suit = suit;
         Rank = rank;
         if((suit <= 0 && rank != Rank.Joker)
             || (suit > 0 && rank == Rank.Joker)) {
             throw new ArgumentException();
         }
-        isRed = back;
+        DeckColor = back;
     }
+
+    public Card(Suit suit, Rank rank) : this(suit, rank, DeckColor.Red) {}
 
     override
     public string ToString() {

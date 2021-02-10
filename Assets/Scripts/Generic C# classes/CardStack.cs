@@ -53,8 +53,8 @@ public class CardStack {
         return cards[index].rankAsInt;
     }
 
-    public bool GetCardBack(int index) {
-        return cards[index].isRed;
+    public DeckColor GetCardBack(int index) {
+        return cards[index].DeckColor;
     }
 
     //cards are removed from deck when taken.
@@ -91,22 +91,22 @@ public class CardStack {
 
     #region Mutators
 
-    public void GenerateDeck52(bool red) {
+    public void GenerateDeck52(DeckColor deckColor) {
         foreach(Suit suit in Enum.GetValues(typeof(Suit))) {
             foreach (Rank rank in Enum.GetValues(typeof(Rank))) {
                 // suit > 0 means card is not joker
                 if(suit > 0 && rank != Rank.Joker) {
-                    AddCardToTop(new Card(suit, rank, red));
+                    AddCardToTop(new Card(suit, rank, deckColor));
                 }
             }
         }
 
     }
 
-    public void GenerateDeck54(bool red) {
-        GenerateDeck52(red);
-        AddCardToTop(new Card(Suit.RedJoker, Rank.Joker, red));
-        AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker, red));
+    public void GenerateDeck54(DeckColor deckColor) {
+        GenerateDeck52(deckColor);
+        AddCardToTop(new Card(Suit.RedJoker, Rank.Joker, deckColor));
+        AddCardToTop(new Card(Suit.BlackJoker, Rank.Joker, deckColor));
     }
 
     public void Shuffle() {
@@ -121,6 +121,10 @@ public class CardStack {
 
         cards = newCards;
         
+    }
+
+    public void AddCardAt(int index, Card newCard) {
+        cards.Insert(index, newCard);
     }
 
     public void AddCardToTop(Card newCard) {

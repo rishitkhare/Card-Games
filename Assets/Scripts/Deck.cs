@@ -13,11 +13,11 @@ public class Deck : Interactable {
         cardStack = new CardStack(true);
 
         if (redDeck) {
-            cardStack.GenerateDeck52(true);
+            cardStack.GenerateDeck52(DeckColor.Red);
         }
 
         else {
-            cardStack.GenerateDeck52(false);
+            cardStack.GenerateDeck52(DeckColor.Blue);
         }
 
         render = gameObject.GetComponent<RenderCard>();
@@ -28,7 +28,7 @@ public class Deck : Interactable {
         try {
             Suit suit = cardStack.GetCardSuit(0);
             Rank rank = cardStack.GetCardRank(0);
-            bool back = cardStack.GetCardBack(0);
+            DeckColor back = cardStack.GetCardBack(0);
             Card cardData = new Card(suit, rank, back);
 
             textBox.text = cardData.ToString();
@@ -43,6 +43,11 @@ public class Deck : Interactable {
         catch (System.ArgumentOutOfRangeException) {
             render.renderedCard = null;
         }
+    }
+
+    override
+    public Card GetCard(Vector2 point) {
+        return cardStack.TakeTopCard();
     }
 
 
