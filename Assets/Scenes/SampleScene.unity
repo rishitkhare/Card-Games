@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 1096629053}
   - {fileID: 1488438886}
   spriteArray: {fileID: 11400000, guid: 2f03bb7958c554fd9aa1156b9bcb80c0, type: 2}
+  mainCamera: {fileID: 0}
 --- !u!4 &161361857
 Transform:
   m_ObjectHideFlags: 0
@@ -1341,8 +1342,11 @@ MonoBehaviour:
   HandCard: {fileID: 1007848096742832448, guid: b7dbef0f4c92649fa938dae532270e19,
     type: 3}
   handWidth: 19.3
+  selectedHandWidth: 24.6
+  timeToSelectAnimation: 3.8
   maxRotation: -33.1
   rotationOffset: 0
+  clerpRate: 0.2
   anchor: {x: 0, y: -15.75, z: 0}
 --- !u!4 &1488438887
 Transform:

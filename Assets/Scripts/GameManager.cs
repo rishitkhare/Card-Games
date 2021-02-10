@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public List<Interactable> interactableDecks;
     public CardSpriteArray spriteArray;
     public static GameManager gm;
+    public Camera mainCamera;
 
     void Start() {
         if(gm != null) {
@@ -15,5 +16,7 @@ public class GameManager : MonoBehaviour
         else {
             gm = this;
         }
+
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 }

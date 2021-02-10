@@ -6,19 +6,23 @@ public class Hand : Interactable {
 
     public GameObject HandCard;
     public float handWidth = 3f;
+    public float selectedHandWidth = 4f;
+    public float timeToSelectAnimation = 0.4f;
     public float maxRotation = 60f;
     public float rotationOffset = 0f;
+    public float clerpRate = 0.3f;
     public Vector3 anchor = Vector3.zero;
 
     List<RenderCard> renderedCards;
     List<Collider2D> cardColliders;
-
+    List<FanOut> cardFanOuts;
 
     // Start is called before the first frame update
     void Start() {
         cardStack = new CardStack(true);
         renderedCards = new List<RenderCard>();
         cardColliders = new List<Collider2D>();
+        cardFanOuts = new List<FanOut>();
         cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight));
         cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Ace));
         cardStack.AddCardToTop(new Card(Suit.Spades, Rank.Seven, DeckColor.Blue));
@@ -31,7 +35,7 @@ public class Hand : Interactable {
     void Update() {
         SetSizeOfRenderedHand();
         RenderEachCardInHand();
-        FanOut();
+        IndexCards();
     }
 
     override
@@ -40,7 +44,6 @@ public class Hand : Interactable {
         for (int i = 0; i < renderedCards.Count; i++) {
             if (cardColliders[i].OverlapPoint(mousePosition)) {
                 Card taken_Card = cardStack.TakeCardAt(i);
-                Debug.Log(taken_Card);
                 return taken_Card;
             }
         }
@@ -49,12 +52,24 @@ public class Hand : Interactable {
         return cardStack.TakeTopCard();
     }
 
+
+# region accessors
+    public int GetNumberOfCardsInHand() {
+        return renderedCards.Count;
+    }
+
+    public List<Collider2D> GetCardColliders() {
+        return cardColliders;
+    }
+#endregion
+
     private void SetSizeOfRenderedHand() {
         while (renderedCards.Count < cardStack.NumberOfCards()) {
             //instantiate prefabs
             GameObject newCard = Instantiate(HandCard, transform.position, Quaternion.identity);
             renderedCards.Add(newCard.GetComponent<RenderCard>());
             cardColliders.Add(newCard.GetComponent<Collider2D>());
+            cardFanOuts.Add(newCard.GetComponent<FanOut>());
             newCard.transform.parent = transform;
         }
         while (renderedCards.Count > cardStack.NumberOfCards()) {
@@ -63,6 +78,7 @@ public class Hand : Interactable {
             GameObject objectToDelete = renderedCards[0].gameObject;
             renderedCards.RemoveAt(0);
             cardColliders.RemoveAt(0);
+            cardFanOuts.RemoveAt(0);
 
             Destroy(objectToDelete);
         }
@@ -78,28 +94,9 @@ public class Hand : Interactable {
         }
     }
 
-    private void FanOut() {
-        for(int i = 0; i < renderedCards.Count; i++) {
-            //rotation
-            if(renderedCards.Count > 1) {
-                renderedCards[i].transform.eulerAngles = new Vector3(0, 0, (maxRotation / 2) -
-                    i * (maxRotation / (renderedCards.Count - 1)));
-            }
-            else {
-                renderedCards[i].transform.eulerAngles = new Vector3(0, 0, 0);
-            }
-
-            //position
-            //start at anchor
-            renderedCards[i].transform.localPosition = anchor;
-
-            //
-            renderedCards[i].transform.localPosition +=
-                handWidth * renderedCards[i].transform.up;
-
-            //offset
-            renderedCards[i].transform.eulerAngles = new Vector3(0, 0,
-                renderedCards[i].transform.eulerAngles.z + rotationOffset);
+    private void IndexCards() {
+        for(int i = 0; i < cardFanOuts.Count; i++) {
+            cardFanOuts[i].fanIndex = i;
         }
     }
 }
