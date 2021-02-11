@@ -11,6 +11,7 @@ public class Hand : Interactable {
     public float maxRotation = 60f;
     public float rotationOffset = 0f;
     public float clerpRate = 0.3f;
+    public int framesPerSample = 1;
     public Vector3 anchor = Vector3.zero;
 
     List<RenderCard> renderedCards;

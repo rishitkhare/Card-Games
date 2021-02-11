@@ -8,6 +8,7 @@ public class FanOut : MonoBehaviour {
     public int fanIndex = 0;
     float currentRadius;
     float currentRotation;
+    int framesPerSampleCounter = 0;
     Collider2D col;
 
     // Start is called before the first frame update
@@ -17,8 +18,14 @@ public class FanOut : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        framesPerSampleCounter++;
+        if(framesPerSampleCounter %  parentHand.framesPerSample == 0) {
+            Interpolate();
+        }
+    }
+
+    private void Interpolate() {
         //rotation
         float targetRotation;
         if (parentHand.GetNumberOfCardsInHand() > 1) {
@@ -40,7 +47,7 @@ public class FanOut : MonoBehaviour {
 
         //moves by radius
         float targetRadius;
-        if(IsMouseTouchingCollider()) {
+        if (IsMouseTouchingCollider()) {
             targetRadius = parentHand.selectedHandWidth;
         }
         else {
@@ -60,8 +67,13 @@ public class FanOut : MonoBehaviour {
 
     //Card Linear interpolation
     private float Clerp(float current, float target, float rate) {
-        return current + ((target - current) * rate);
-    }
+        if(Mathf.Abs(target - current) < 0.1f) {
+            return target;
+        }
+        else {
+            return current + ((target - current) * rate);
+            }
+        }
 
     private bool IsMouseTouchingCollider() {
         var cardColliders = parentHand.GetCardColliders();
