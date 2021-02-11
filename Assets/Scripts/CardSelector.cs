@@ -24,7 +24,7 @@ public class CardSelector : MonoBehaviour {
                 storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
             }
             else {
-                selectedDeck.cardStack.AddCardToTop(storeCard.TakeTopCard());
+                selectedDeck.GiveCard(storeCard.TakeTopCard());
             }
         }
 

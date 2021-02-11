@@ -50,5 +50,10 @@ public class Deck : Interactable {
         return cardStack.TakeTopCard();
     }
 
+    override
+    public void GiveCard(Card card) {
+        cardStack.AddCardToTop(card);
+    }
+
 
 }
