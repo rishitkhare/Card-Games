@@ -36,7 +36,7 @@ public class FanOut : MonoBehaviour {
             targetRotation = 0f;
         }
 
-        currentRotation = Interpolation.Clerp(currentRotation, targetRotation, parentHand.clerpRate);
+        currentRotation = Clerp(currentRotation, targetRotation, parentHand.clerpRate);
 
         transform.eulerAngles = new Vector3(0, 0, currentRotation);
         //positioning
@@ -55,7 +55,7 @@ public class FanOut : MonoBehaviour {
         }
 
         //interpolate
-        currentRadius = Interpolation.Clerp(currentRadius, targetRadius, parentHand.clerpRate);
+        currentRadius = Clerp(currentRadius, targetRadius, parentHand.clerpRate);
 
         transform.localPosition +=
             currentRadius * transform.up;
@@ -66,8 +66,14 @@ public class FanOut : MonoBehaviour {
     }
 
     //Card Linear interpolation
-    //private float Clerp(float current, float target, float rate) {
-    //}
+    private float Clerp(float current, float target, float rate) {
+        if(Mathf.Abs(target - current) < 0.1f) {
+            return target;
+        }
+        else {
+            return current + ((target - current) * rate);
+            }
+        }
 
     private bool IsMouseTouchingCollider() {
         var cardColliders = parentHand.GetCardColliders();
