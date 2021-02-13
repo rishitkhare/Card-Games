@@ -390,7 +390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -346.7, y: 68.3}
+  m_AnchoredPosition: {x: -278, y: 50}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &327391056
@@ -571,7 +571,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12.79
+  orthographic size: 16.05
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -635,7 +635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 349, y: 68.3}
+  m_AnchoredPosition: {x: 277, y: 50}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &582067353
@@ -1357,7 +1357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488438885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -6, z: 0}
+  m_LocalPosition: {x: 0.02, y: -13.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1542,6 +1542,7 @@ GameObject:
   - component: {fileID: 1685160035}
   - component: {fileID: 1685160038}
   - component: {fileID: 1685160039}
+  - component: {fileID: 1685160040}
   m_Layer: 0
   m_Name: Card Selector
   m_TagString: Untagged
@@ -1659,6 +1660,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31781bd422c4b45cf8357f7d0c61db18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flipRate: 0.05
+--- !u!95 &1685160040
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685160034}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5798c734e7b1402e91910eda4a7452c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1922733891
 GameObject:
   m_ObjectHideFlags: 0

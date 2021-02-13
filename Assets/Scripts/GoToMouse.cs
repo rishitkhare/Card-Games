@@ -14,16 +14,17 @@ public class GoToMouse : MonoBehaviour
     Vector2 previousPosition;
     float rotationZ;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         cameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         cam = cameraObject.GetComponent<Camera>();
         rotationZ = 0f;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        float initialRotX = transform.eulerAngles.x;
+        float initialRotY = transform.eulerAngles.y;
+
         float timeScale = Time.deltaTime * 60f;
         Vector2 MouseWorldSpace = cam.ScreenToWorldPoint(Input.mousePosition);
         rotationZ += (previousPosition - MouseWorldSpace).x * timeScale;
@@ -34,11 +35,11 @@ public class GoToMouse : MonoBehaviour
         }
 
         if(Mathf.Abs(rotationZ * fancyRotationFactor) > maxDegreesOfRotation) {
-            transform.eulerAngles = new Vector3(0f, 0f, maxDegreesOfRotation * Mathf.Sign(rotationZ));
+            transform.eulerAngles = new Vector3(initialRotX, initialRotY, maxDegreesOfRotation * Mathf.Sign(rotationZ));
             rotationZ = Mathf.Sign(rotationZ) * maxDegreesOfRotation / fancyRotationFactor;
         }
         else {
-            transform.eulerAngles = new Vector3(0f, 0f, rotationZ * fancyRotationFactor);
+            transform.eulerAngles = new Vector3(initialRotX, initialRotY, rotationZ * fancyRotationFactor);
         }
 
         transform.position = MouseWorldSpace;
