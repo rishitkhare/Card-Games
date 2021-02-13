@@ -10,7 +10,7 @@ public class Deck : Interactable {
 
     // Start is called before the first frame update
     void Start() {
-        cardStack = new CardStack(true);
+        cardStack = new CardStack(false);
 
         if (redDeck) {
             cardStack.GenerateDeck52(DeckColor.Red);
@@ -21,10 +21,10 @@ public class Deck : Interactable {
         }
 
         render = gameObject.GetComponent<RenderCard>();
-        render.isFlipped = true;
     }
 
     void Update() {
+        render.isFlipped = !cardStack.IsFaceUp;
         try {
             Suit suit = cardStack.GetCardSuit(0);
             Rank rank = cardStack.GetCardRank(0);

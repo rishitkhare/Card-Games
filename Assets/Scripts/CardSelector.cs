@@ -9,6 +9,10 @@ public class CardSelector : MonoBehaviour {
     CardStack storeCard;
     Camera cam;
 
+    public float flipRate = 0.3f;
+
+    float currentRotation = 0f;
+
     // Start is called before the first frame update
     void Start() {
         render = gameObject.GetComponent<RenderCard>();
@@ -17,8 +21,8 @@ public class CardSelector : MonoBehaviour {
     }
 
     void Update() {
-        if(Input.GetMouseButtonDown(0)) {
-            Interactable selectedDeck = GetSelectedInteractable();
+        Interactable selectedDeck = GetSelectedInteractable();
+        if (Input.GetMouseButtonDown(0)) {
 
             if(storeCard.NumberOfCards() == 0) {
                 storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
@@ -29,11 +33,41 @@ public class CardSelector : MonoBehaviour {
         }
 
 
-        try {
+        if(storeCard.NumberOfCards() > 0) {
             render.renderedCard = new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0), storeCard.GetCardBack(0));
         }
-        catch(ArgumentOutOfRangeException){
+        else {
             render.renderedCard = null;
+        }
+
+        FlipCard(selectedDeck);
+    }
+
+    private void FlipCard(Interactable i) {
+        //store previous rotation
+        float initialRotX = transform.eulerAngles.x;
+        float initialRotZ = transform.eulerAngles.z;
+
+        float targetRotation;
+        if (i.cardStack.IsFaceUp) {
+            //clerp to rotation 0
+            targetRotation = 0;
+        }
+        else {
+            //clerp to rotation 180
+            targetRotation = 180;
+        }
+
+        //interpolate flipping
+        currentRotation = Interpolation.Clerp(currentRotation, targetRotation, flipRate);
+        if(currentRotation < 90) {
+            transform.eulerAngles = new Vector3(initialRotX, currentRotation, initialRotZ);
+            render.isFlipped = false;
+        }
+        else {
+            //if it's flipped more than halfway, don't mirror the image
+            transform.eulerAngles = new Vector3(initialRotX, 180 - currentRotation, initialRotZ);
+            render.isFlipped = true;
         }
     }
 
