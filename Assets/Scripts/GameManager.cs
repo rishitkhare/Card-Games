@@ -7,7 +7,13 @@ public class GameManager : MonoBehaviour
     public List<Interactable> interactableDecks;
     public CardSpriteArray spriteArray;
     public static GameManager gm;
+    [HideInInspector]
     public Camera mainCamera;
+    public GameObject hand;
+    Game game;
+    [HideInInspector]
+    public CardSelector cardSelector;
+
 
     void Start() {
         if(gm != null) {

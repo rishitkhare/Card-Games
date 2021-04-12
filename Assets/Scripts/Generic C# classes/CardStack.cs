@@ -135,6 +135,10 @@ public class CardStack {
         cards.Add(newCard);
     }
 
+    public void ClearCardStack() {
+        cards.Clear();
+    }
+
     #endregion
 
 

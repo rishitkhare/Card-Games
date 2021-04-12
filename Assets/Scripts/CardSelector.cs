@@ -90,5 +90,9 @@ public class CardSelector : MonoBehaviour {
         return result;
     }
 
+    public Card GetSelectedCard() {
+        return new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0), storeCard.GetCardBack(0));
+    }
+
     
 }

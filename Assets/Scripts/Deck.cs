@@ -7,17 +7,30 @@ public class Deck : Interactable {
     RenderCard render;
     public Text textBox;
     public bool redDeck;
+    public bool fullDeck;
 
     // Start is called before the first frame update
     void Start() {
         cardStack = new CardStack(false);
 
         if (redDeck) {
-            cardStack.GenerateDeck52(DeckColor.Red);
+            if (fullDeck) {
+                cardStack.GenerateDeck54(DeckColor.Red);
+            }
+
+            else {
+                cardStack.GenerateDeck54(DeckColor.Red);
+            }
         }
 
         else {
-            cardStack.GenerateDeck52(DeckColor.Blue);
+            if (fullDeck) {
+                cardStack.GenerateDeck54(DeckColor.Blue);
+            }
+
+            else {
+                cardStack.GenerateDeck52(DeckColor.Blue);
+            }
         }
 
         render = gameObject.GetComponent<RenderCard>();

@@ -42,12 +42,15 @@ public class Hand : Interactable {
     override
     public Card GetCard(Vector2 mousePosition) {
         //return cardStack.TakeTopCard();
+        Card taken_Card;
+        GameObject objectToDelete;
+
         for (int i = 0; i < renderedCards.Count; i++) {
             if (cardColliders[i].OverlapPoint(mousePosition)) {
 
-                Card taken_Card = cardStack.TakeCardAt(i);
+                taken_Card = cardStack.TakeCardAt(i);
 
-                GameObject objectToDelete = renderedCards[i].gameObject;
+                objectToDelete = renderedCards[i].gameObject;
                 renderedCards.RemoveAt(i);
                 cardColliders.RemoveAt(i);
                 cardFanOuts.RemoveAt(i);
@@ -59,8 +62,19 @@ public class Hand : Interactable {
         }
 
         Debug.Log("no card clicked, top one taken");
-        return cardStack.TakeTopCard();
+
+        taken_Card = cardStack.TakeCardAt(0);
+
+        objectToDelete = renderedCards[0].gameObject;
+        renderedCards.RemoveAt(0);
+        cardColliders.RemoveAt(0);
+        cardFanOuts.RemoveAt(0);
+
+        Destroy(objectToDelete);
+
+        return taken_Card;
     }
+
     override
     public void GiveCard(Card card) {
         cardStack.AddCardToBottom(card);
@@ -86,17 +100,17 @@ public class Hand : Interactable {
             cardFanOuts.Add(newCard.GetComponent<FanOut>());
             newCard.transform.parent = transform;
         }
-        //while (renderedCards.Count > cardStack.NumberOfCards()) {
-        //    //delete prefabs
-        //    //TODO : find correct index
-        //    GameObject objectToDelete = renderedCards[0].gameObject;
-        //    renderedCards.RemoveAt(0);
-        //    cardColliders.RemoveAt(0);
-        //    cardFanOuts.RemoveAt(0);
-        //    Debug.Log("removed with failsafe");
+        /*while (renderedCards.Count > cardStack.NumberOfCards()) {
+            //delete prefabs
+            //TODO : get new computer
+            GameObject objectToDelete = renderedCards[0].gameObject;
+            renderedCards.RemoveAt(0);
+            cardColliders.RemoveAt(0);
+            cardFanOuts.RemoveAt(0);
+            Debug.Log("removed with failsafe");
 
-        //    Destroy(objectToDelete);
-        //}
+            Destroy(objectToDelete);
+        }*/
     }
 
     private void RenderEachCardInHand() {
