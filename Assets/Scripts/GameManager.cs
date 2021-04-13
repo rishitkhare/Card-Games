@@ -24,5 +24,6 @@ public class GameManager : MonoBehaviour
         }
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        cardSelector = GameObject.FindGameObjectWithTag("CardSelector").GetComponent<CardSelector>();
     }
 }

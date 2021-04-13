@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Tunk : Game {
     new List<Hand> players;
-    Deck deck;
-    Deck output;
+    public Deck deck;
+    public Deck output;
     public int cardsDealt;
     private bool tunkCalled;
 
@@ -13,8 +13,6 @@ public class Tunk : Game {
     void Start()
     {
         players = base.players;
-        deck = new Deck();
-        output = new Deck();
         SetUp();
         tunkCalled = false;
     }
@@ -27,11 +25,15 @@ public class Tunk : Game {
 
     override
     public void SetUp() {
+        deck.lockPlace = true;
         deck.cardStack.Shuffle();
         output.cardStack.ClearCardStack();
         output.cardStack.IsFaceUp = true;
         Deal(cardsDealt);
+        ReplaceJokerStart();
+    }
 
+    void ReplaceJokerStart() {
         while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.BlackJoker) {
             if (output.cardStack.NumberOfCards() != 0) {
                 deck.cardStack.AddCardToBottom(output.GetCard());
@@ -46,6 +48,10 @@ public class Tunk : Game {
                 hand.cardStack.AddCardToTop(deck.GetCard());
             }
         }
+    }
+
+    void TunkCall() {
+
     }
 
     override
@@ -69,8 +75,24 @@ public class Tunk : Game {
 
     }
 
-    void Place(Hand hand) {
+    override
+    public void PickUp() {
+        output.lockPlace = true;
+    }
 
+    override
+    public void Place() {
+        
+        // if a card is placed in output
+        // if a card in placed in hand
+        // lock deck
+
+    }
+
+    override
+    public void OnTurnEnd() {
+        // set-up deck / next hand
+        turn++;
     }
 
 }

@@ -1111,6 +1111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad09e6319f70493dbadf7414b0ff9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockPickup: 0
+  lockPlace: 0
   textBox: {fileID: 327391056}
   redDeck: 1
   fullDeck: 0
@@ -1145,6 +1147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad09e6319f70493dbadf7414b0ff9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockPickup: 0
+  lockPlace: 0
   textBox: {fileID: 582067353}
   redDeck: 0
   fullDeck: 0
@@ -1508,7 +1512,7 @@ GameObject:
   - component: {fileID: 1685160040}
   m_Layer: 0
   m_Name: Card Selector
-  m_TagString: Untagged
+  m_TagString: CardSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1623,6 +1627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31781bd422c4b45cf8357f7d0c61db18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCardPickup:
+    m_PersistentCalls:
+      m_Calls: []
+  onCardPlace:
+    m_PersistentCalls:
+      m_Calls: []
   flipRate: 0.05
 --- !u!95 &1685160040
 Animator:

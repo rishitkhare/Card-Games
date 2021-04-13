@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(RenderCard))]
 public class CardSelector : MonoBehaviour {
     RenderCard render;
     CardStack storeCard;
     Camera cam;
+
+    public UnityEvent onCardPickup;
+    public UnityEvent onCardPlace;
 
     public float flipRate = 0.3f;
 
@@ -18,17 +22,28 @@ public class CardSelector : MonoBehaviour {
         render = gameObject.GetComponent<RenderCard>();
         storeCard = new CardStack(true);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        
+        if (onCardPickup == null) {
+            onCardPickup = new UnityEvent();
+        }
+
+        if (onCardPlace == null) {
+            onCardPlace = new UnityEvent();
+        }
     }
 
     void Update() {
         Interactable selectedDeck = GetSelectedInteractable();
         if (Input.GetMouseButtonDown(0)) {
 
-            if(storeCard.NumberOfCards() == 0) {
+            if(storeCard.NumberOfCards() == 0 && selectedDeck.lockPickup == false) {
                 storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
+                onCardPickup?.Invoke();
             }
-            else {
+
+            else if (storeCard.NumberOfCards() != 0 && selectedDeck.lockPlace == false) {
                 selectedDeck.GiveCard(storeCard.TakeTopCard());
+                onCardPlace?.Invoke();
             }
         }
 
