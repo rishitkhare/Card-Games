@@ -81,6 +81,16 @@ public class CardStack {
         return total;
     }
 
+    public int TotalWorthTunk() {
+        int total = 0;
+
+        foreach (Card card in cards) {
+            total += (card.rankAsInt < 10) ? card.rankAsInt : 10;
+        }
+
+        return total;
+    }
+
     public int NumberOfCards() { return cards.Count; }
 
     public Card TakeTopCard() { return TakeCardAt(0); }

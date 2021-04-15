@@ -6,32 +6,10 @@ public class Deck : Interactable {
 
     RenderCard render;
     public Text textBox;
-    public bool redDeck;
-    public bool fullDeck;
 
     // Start is called before the first frame update
     void Start() {
         cardStack = new CardStack(false);
-
-        if (redDeck) {
-            if (fullDeck) {
-                cardStack.GenerateDeck54(DeckColor.Red);
-            }
-
-            else {
-                cardStack.GenerateDeck54(DeckColor.Red);
-            }
-        }
-
-        else {
-            if (fullDeck) {
-                cardStack.GenerateDeck54(DeckColor.Blue);
-            }
-
-            else {
-                cardStack.GenerateDeck52(DeckColor.Blue);
-            }
-        }
 
         render = gameObject.GetComponent<RenderCard>();
     }
@@ -55,6 +33,28 @@ public class Deck : Interactable {
         }
         catch (System.ArgumentOutOfRangeException) {
             render.renderedCard = null;
+        }
+    }
+
+    public void GenerateDeck(bool redDeck, bool fullDeck) {
+        if (redDeck) {
+            if (fullDeck) {
+                cardStack.GenerateDeck54(DeckColor.Red);
+            }
+
+            else {
+                cardStack.GenerateDeck52(DeckColor.Red);
+            }
+        }
+
+        else {
+            if (fullDeck) {
+                cardStack.GenerateDeck54(DeckColor.Blue);
+            }
+
+            else {
+                cardStack.GenerateDeck52(DeckColor.Blue);
+            }
         }
     }
 

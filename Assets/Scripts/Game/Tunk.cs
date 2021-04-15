@@ -1,20 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tunk : Game {
-    new List<Hand> players;
     public Deck deck;
     public Deck output;
+    public Deck exchange;
+
     public int cardsDealt;
-    private bool tunkCalled;
+
+    public Button tunkCall;
+    List<int> scores;
 
     // Start is called before the first frame update
     void Start()
     {
-        players = base.players;
+        scores = new List<int>(players.Count);
         SetUp();
-        tunkCalled = false;
     }
 
     // Update is called once per frame
@@ -25,9 +28,22 @@ public class Tunk : Game {
 
     override
     public void SetUp() {
+        tunkCall.enabled = false;
         deck.lockPlace = true;
-        deck.cardStack.Shuffle();
+        exchange.lockPickup = true;
+        output.lockPlace = true;
+
+        deck.cardStack.ClearCardStack();
         output.cardStack.ClearCardStack();
+        exchange.cardStack.ClearCardStack();
+        
+        foreach(Hand hand in players) {
+            hand.cardStack.ClearCardStack();
+        }
+
+        deck.GenerateDeck(true, true);
+
+        deck.cardStack.Shuffle();
         output.cardStack.IsFaceUp = true;
         Deal(cardsDealt);
         ReplaceJokerStart();
@@ -50,49 +66,68 @@ public class Tunk : Game {
         }
     }
 
-    void TunkCall() {
-
-    }
-
-    override
-    public void Turn() {
-        while (!tunkCalled) {
-            Hand hand = players[turn % players.Count];
-            /*
-            if (turn >= players.Count) {
-                Tunk();
-            }
-
-            Place(hand);
-            Draw(hand);
-            turn++;
-
-            if (deck is empty) {
-                Tunk();
-            }
-            */
+    public void OnTunkCall(bool empty) {
+        // TODO: point system
+        for (int i = 0; i < players.Count; i++) {
+            scores[i] = players[i].cardStack.TotalWorthTunk();
         }
 
+        if (empty) {
+
+        }
     }
 
     override
-    public void PickUp() {
-        output.lockPlace = true;
+    public void PickUp(Interactable selectedDeck, Card play) {
+        if (selectedDeck.Equals(currentPlayer)) {
+            PickupFromHand(play);
+        }
+
+        if (selectedDeck.Equals(deck) || selectedDeck.Equals(output)) {
+            PickupFromDeckOutput();
+        }
     }
 
     override
-    public void Place() {
-        
-        // if a card is placed in output
-        // if a card in placed in hand
-        // lock deck
+    public void Place(Interactable selectedDeck, Interactable prevDeck) {
+        if (selectedDeck.Equals(currentPlayer) && !selectedDeck.Equals(prevDeck)) {
+            OnTurnEnd();
+        }
 
+        if (!(selectedDeck.Equals(currentPlayer) && prevDeck.Equals(currentPlayer))) {
+            tunkCall.enabled = false;
+        }
+    }
+
+    void PickupFromHand(Card play) {
+        if (exchange.cardStack.NumberOfCards() != 0) {
+            exchange.lockPlace = exchange.cardStack.TakeTopCard().Rank != play.Rank;
+        }
+    }
+
+    void PickupFromDeckOutput() {
+        exchange.lockPlace = true;
+        deck.lockPickup = true;
+        output.lockPickup = true;
     }
 
     override
     public void OnTurnEnd() {
-        // set-up deck / next hand
-        turn++;
+        while (exchange.cardStack.NumberOfCards() != 0) {
+            output.GiveCard(exchange.GetCard());
+        }
+
+        if (deck.cardStack.NumberOfCards() == 0) {
+            OnTunkCall(true);
+        }
+
+        NewTurn();
     }
 
+    void NewTurn() {
+        currentPlayer = players[++turn % players.Count];
+        if (turn >= players.Count) {
+            tunkCall.enabled = true;
+        }
+    }
 }

@@ -10,8 +10,11 @@ public class CardSelector : MonoBehaviour {
     CardStack storeCard;
     Camera cam;
 
-    public UnityEvent onCardPickup;
-    public UnityEvent onCardPlace;
+    public UnityEvent<Interactable, Card> onCardPickup;
+    public UnityEvent<Interactable, Interactable> onCardPlace;
+
+    public Interactable selectedDeck;
+    public Interactable prevInteractable;
 
     public float flipRate = 0.3f;
 
@@ -22,29 +25,36 @@ public class CardSelector : MonoBehaviour {
         render = gameObject.GetComponent<RenderCard>();
         storeCard = new CardStack(true);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
+        selectedDeck = null;
+        prevInteractable = null;
         
         if (onCardPickup == null) {
-            onCardPickup = new UnityEvent();
+            onCardPickup = new UnityEvent<Interactable, Card>();
         }
 
         if (onCardPlace == null) {
-            onCardPlace = new UnityEvent();
+            onCardPlace = new UnityEvent<Interactable, Interactable>();
         }
     }
 
     void Update() {
-        Interactable selectedDeck = GetSelectedInteractable();
+        selectedDeck = GetSelectedInteractable();
         if (Input.GetMouseButtonDown(0)) {
 
             if(storeCard.NumberOfCards() == 0 && selectedDeck.lockPickup == false) {
                 storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
-                onCardPickup?.Invoke();
+                onCardPickup?.Invoke(selectedDeck, storeCard.TakeTopCard());
             }
 
             else if (storeCard.NumberOfCards() != 0 && selectedDeck.lockPlace == false) {
                 selectedDeck.GiveCard(storeCard.TakeTopCard());
-                onCardPlace?.Invoke();
+                onCardPlace?.Invoke(selectedDeck, prevInteractable);
             }
+
+            //if (prevInteractable == null || prevInteractable != selectedDeck) {
+            prevInteractable = selectedDeck;
+            //}
         }
 
 

@@ -1,0 +1,53 @@
+lock deck place
+lock exchange pickup
+lock output place
+
+Pickup {
+	pickup from hand {
+		you can:
+			place back to hand
+
+			if rank is same:
+				place to exchange
+	}
+
+	pickup from deck {
+		you can:
+			place to hand
+
+		lock exchange place
+
+		lock deck pickup
+		lock output pickup
+	}
+
+	pickup from output {
+		you can:
+			place to hand
+
+		lock exchange place
+
+		lock deck pickup
+		lock output pickup
+	}
+}
+
+Place {
+	place to hand {
+		from output or deck:
+			OnTurnEnd
+		from hand:
+			nothing
+	}
+	
+	place to exchange {
+		from hand:
+			if first time:
+				create rank logic
+	}
+}
+
+OnTurnEnd {
+	exchange cards placed into output
+	increment turn
+}
