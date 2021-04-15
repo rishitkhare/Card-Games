@@ -4,13 +4,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour {
     public CardStack cardStack;
-    public bool lockPickup;
-    public bool lockPlace;
-
-    public void Awake() {
-        lockPickup = false;
-        lockPlace = false;
-    }
+    public bool lockPickup = false;
+    public bool lockPlace = false;
 
     public abstract Card GetCard(Vector2 point);
     public Card GetCard() {

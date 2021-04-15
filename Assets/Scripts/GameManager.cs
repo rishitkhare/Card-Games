@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public CardSelector cardSelector;
 
 
-    void Start() {
+    void Awake() {
         if(gm != null) {
             Debug.Log("Failed Singleton Design");
         }

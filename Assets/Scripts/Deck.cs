@@ -8,7 +8,7 @@ public class Deck : Interactable {
     public Text textBox;
 
     // Start is called before the first frame update
-    void Start() {
+    void Awake() {
         cardStack = new CardStack(false);
 
         render = gameObject.GetComponent<RenderCard>();
@@ -16,16 +16,19 @@ public class Deck : Interactable {
 
     void Update() {
         render.isFlipped = !cardStack.IsFaceUp;
-        try {
-            Suit suit = cardStack.GetCardSuit(0);
-            Rank rank = cardStack.GetCardRank(0);
-            DeckColor back = cardStack.GetCardBack(0);
-            Card cardData = new Card(suit, rank, back);
 
-            textBox.text = cardData.ToString();
-        }
-        catch (System.ArgumentOutOfRangeException) {
-            textBox.text = "";
+        if(textBox != null){
+            try {
+                Suit suit = cardStack.GetCardSuit(0);
+                Rank rank = cardStack.GetCardRank(0);
+                DeckColor back = cardStack.GetCardBack(0);
+                Card cardData = new Card(suit, rank, back);
+
+                textBox.text = cardData.ToString();
+            }
+            catch (System.ArgumentOutOfRangeException) {
+                textBox.text = "";
+            }
         }
 
         try {
