@@ -9,11 +9,10 @@ public class GameManager : MonoBehaviour
     public static GameManager gm;
     [HideInInspector]
     public Camera mainCamera;
-    public GameObject hand;
-    Game game;
     [HideInInspector]
     public CardSelector cardSelector;
 
+    public Hand handDisplay;
 
     void Awake() {
         if(gm != null) {

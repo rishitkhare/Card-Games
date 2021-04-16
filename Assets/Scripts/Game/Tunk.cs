@@ -16,14 +16,8 @@ public class Tunk : Game {
     // Start is called before the first frame update
     void Start()
     {
-        scores = new List<int>(players.Count);
+        scores = new List<int>(playerHands.Count);
         SetUp();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     override
@@ -37,8 +31,8 @@ public class Tunk : Game {
         output.cardStack.ClearCardStack();
         exchange.cardStack.ClearCardStack();
         
-        foreach(Hand hand in players) {
-            hand.cardStack.ClearCardStack();
+        foreach(CardStack hand in playerHands) {
+            hand.ClearCardStack();
         }
 
         deck.GenerateDeck(true, true);
@@ -47,6 +41,8 @@ public class Tunk : Game {
         output.cardStack.IsFaceUp = true;
         Deal(cardsDealt);
         ReplaceJokerStart();
+
+        GameManager.gm.handDisplay.cardStack = currentPlayer;
     }
 
     void ReplaceJokerStart() {
@@ -59,17 +55,18 @@ public class Tunk : Game {
     }
 
     void Deal(int cards) {
-        foreach (Hand hand in players) {
+        foreach (CardStack hand in playerHands) {
             for (int i = 0; i < cards; i++) {
-                hand.cardStack.AddCardToTop(deck.GetCard());
+                hand.AddCardToTop(deck.GetCard());
             }
         }
     }
 
     public void OnTunkCall(bool empty) {
         // TODO: point system
-        for (int i = 0; i < players.Count; i++) {
-            scores[i] = players[i].cardStack.TotalWorthTunk();
+        Debug.Log("Tunk Called!");
+        for (int i = 0; i < playerHands.Count; i++) {
+            scores[i] = playerHands[i].TotalWorthTunk();
         }
 
         if (empty) {
@@ -79,7 +76,7 @@ public class Tunk : Game {
 
     override
     public void PickUp(Interactable selectedDeck, Card play) {
-        if (selectedDeck.Equals(currentPlayer)) {
+        if (selectedDeck.Equals(GameManager.gm.handDisplay)) {
             PickupFromHand(play);
         }
 
@@ -90,18 +87,21 @@ public class Tunk : Game {
 
     override
     public void Place(Interactable selectedDeck, Interactable prevDeck) {
-        if (selectedDeck.Equals(currentPlayer) && !selectedDeck.Equals(prevDeck)) {
+        if (selectedDeck.Equals(GameManager.gm.handDisplay) && !selectedDeck.Equals(prevDeck)) {
             OnTurnEnd();
         }
 
-        if (!(selectedDeck.Equals(currentPlayer) && prevDeck.Equals(currentPlayer))) {
+        if (!(selectedDeck.Equals(GameManager.gm.handDisplay) && prevDeck.Equals(GameManager.gm.handDisplay))) {
             tunkCall.enabled = false;
         }
     }
 
     void PickupFromHand(Card play) {
         if (exchange.cardStack.NumberOfCards() != 0) {
-            exchange.lockPlace = exchange.cardStack.TakeTopCard().Rank != play.Rank;
+            exchange.lockPlace = exchange.cardStack.GetCardRank(0) != play.Rank;
+        }
+        else {
+            exchange.lockPlace = false;
         }
     }
 
@@ -113,6 +113,8 @@ public class Tunk : Game {
 
     override
     public void OnTurnEnd() {
+        Debug.Log("Ended Turn!");
+
         while (exchange.cardStack.NumberOfCards() != 0) {
             output.GiveCard(exchange.GetCard());
         }
@@ -125,9 +127,15 @@ public class Tunk : Game {
     }
 
     void NewTurn() {
-        currentPlayer = players[++turn % players.Count];
-        if (turn >= players.Count) {
+        currentPlayer = playerHands[++turn % playerHands.Count];
+        if (turn >= playerHands.Count) {
             tunkCall.enabled = true;
         }
+
+        deck.lockPickup = false;
+        exchange.lockPlace = false;
+        output.lockPickup = false;
+
+        GameManager.gm.handDisplay.cardStack = currentPlayer;
     }
 }

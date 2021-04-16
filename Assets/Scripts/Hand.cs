@@ -20,16 +20,9 @@ public class Hand : Interactable {
 
     // Start is called before the first frame update
     void Start() {
-        cardStack = new CardStack(true);
         renderedCards = new List<RenderCard>();
         cardColliders = new List<Collider2D>();
         cardFanOuts = new List<FanOut>();
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Eight));
-        cardStack.AddCardToTop(new Card(Suit.Hearts, Rank.Ace));
-        cardStack.AddCardToTop(new Card(Suit.Spades, Rank.Seven, DeckColor.Blue));
-        cardStack.AddCardToTop(new Card(Suit.Diamonds, Rank.Nine));
-        cardStack.AddCardToTop(new Card(Suit.Clubs, Rank.Ten, DeckColor.Blue));
-        cardStack.AddCardToBottom(new Card(Suit.Spades, Rank.Ace));
     }
 
     // Update is called once per frame

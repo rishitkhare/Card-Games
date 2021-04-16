@@ -13,12 +13,16 @@ public class CardSelector : MonoBehaviour {
     public UnityEvent<Interactable, Card> onCardPickup;
     public UnityEvent<Interactable, Interactable> onCardPlace;
 
+    [HideInInspector]
     public Interactable selectedDeck;
+    [HideInInspector]
     public Interactable prevInteractable;
 
     public float flipRate = 0.3f;
+    public float minClickingDistance = 5f;
 
     float currentRotation = 0f;
+    float targetRotation;
 
     // Start is called before the first frame update
     void Start() {
@@ -40,21 +44,26 @@ public class CardSelector : MonoBehaviour {
 
     void Update() {
         selectedDeck = GetSelectedInteractable();
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && selectedDeck != null) {
 
             if(storeCard.NumberOfCards() == 0 && selectedDeck.lockPickup == false) {
-                storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
-                onCardPickup?.Invoke(selectedDeck, storeCard.TakeTopCard());
+                try {
+                    storeCard.AddCardToTop(selectedDeck.GetCard(cam.ScreenToWorldPoint(Input.mousePosition)));
+
+                    Card selectedCard = new Card(storeCard.GetCardSuit(0), storeCard.GetCardRank(0));
+                    onCardPickup?.Invoke(selectedDeck, selectedCard);
+                }
+                catch { }
+
+                prevInteractable = selectedDeck;
             }
 
             else if (storeCard.NumberOfCards() != 0 && selectedDeck.lockPlace == false) {
                 selectedDeck.GiveCard(storeCard.TakeTopCard());
                 onCardPlace?.Invoke(selectedDeck, prevInteractable);
-            }
 
-            //if (prevInteractable == null || prevInteractable != selectedDeck) {
-            prevInteractable = selectedDeck;
-            //}
+                prevInteractable = selectedDeck;
+            }
         }
 
 
@@ -73,14 +82,15 @@ public class CardSelector : MonoBehaviour {
         float initialRotX = transform.eulerAngles.x;
         float initialRotZ = transform.eulerAngles.z;
 
-        float targetRotation;
-        if (i.cardStack.IsFaceUp) {
-            //clerp to rotation 0
-            targetRotation = 0;
-        }
-        else {
-            //clerp to rotation 180
-            targetRotation = 180;
+        if(i != null) {
+            if (i.cardStack.IsFaceUp) {
+                //clerp to rotation 0
+                targetRotation = 0;
+            }
+            else {
+                //clerp to rotation 180
+                targetRotation = 180;
+            }
         }
 
         //interpolate flipping
@@ -98,7 +108,7 @@ public class CardSelector : MonoBehaviour {
 
     private Interactable GetSelectedInteractable() {
         Interactable result = null;
-        float minDistanceToDeck = -1f;
+        float minDistanceToDeck = 0f;
 
         foreach(Interactable d in GameManager.gm.interactableDecks) {
             float distanceToDeck = (d.gameObject.transform.position - transform.position).magnitude;
@@ -112,7 +122,16 @@ public class CardSelector : MonoBehaviour {
             }
         }
 
-        return result;
+        if(result is Hand) {
+            return result;
+        }
+
+        if(minDistanceToDeck <= minClickingDistance) {
+            return result;
+        }
+        else {
+            return null;
+        }
     }
 
     public Card GetSelectedCard() {

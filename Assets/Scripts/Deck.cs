@@ -6,15 +6,17 @@ public class Deck : Interactable {
 
     RenderCard render;
     public Text textBox;
+    public bool initialFaceUp;
 
     // Start is called before the first frame update
     void Awake() {
-        cardStack = new CardStack(false);
+        cardStack = new CardStack(initialFaceUp);
 
         render = gameObject.GetComponent<RenderCard>();
     }
 
     void Update() {
+
         render.isFlipped = !cardStack.IsFaceUp;
 
         if(textBox != null){
