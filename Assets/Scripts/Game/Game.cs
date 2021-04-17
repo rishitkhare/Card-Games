@@ -7,9 +7,9 @@ public abstract class Game : MonoBehaviour {
 
     public int numberOfPlayers;
     [HideInInspector] 
-    public List<CardStack> playerHands;
+    public List<Player> players;
     [HideInInspector]
-    public CardStack currentPlayer;
+    public Player currentPlayer;
     [HideInInspector] 
     public int turn;
 
@@ -17,9 +17,9 @@ public abstract class Game : MonoBehaviour {
     // Start is called before the first frame update
     void Awake()
     {
-        playerHands = new List<CardStack>();
+        players = new List<Player>();
         AddPlayersToGame();
-        currentPlayer = playerHands[0];
+        currentPlayer = players[0];
         turn = 0;
         GameManager.gm.cardSelector.onCardPickup.AddListener(PickUp);
         GameManager.gm.cardSelector.onCardPlace.AddListener(Place);
@@ -27,7 +27,7 @@ public abstract class Game : MonoBehaviour {
 
     void AddPlayersToGame() {
         for(int i = 0; i < numberOfPlayers; i ++) {
-            playerHands.Add(new CardStack(true));
+            players.Add(new Player($"{i + 1}"));
         }
     }
 

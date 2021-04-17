@@ -9,19 +9,20 @@ public class Tunk : Game {
     public Deck exchange;
 
     public int cardsDealt;
+    public int pointCap;
 
     public Button tunkCall;
-    List<int> scores;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        scores = new List<int>(playerHands.Count);
+    void Start() {
         SetUp();
     }
 
+    #region overrides
+
     override
     public void SetUp() {
+        SortByTunkWorth();
         tunkCall.enabled = false;
         deck.lockPlace = true;
         exchange.lockPickup = true;
@@ -31,8 +32,8 @@ public class Tunk : Game {
         output.cardStack.ClearCardStack();
         exchange.cardStack.ClearCardStack();
         
-        foreach(CardStack hand in playerHands) {
-            hand.ClearCardStack();
+        foreach(Player player in players) {
+            player.Hand.ClearCardStack();
         }
 
         deck.GenerateDeck(true, true);
@@ -42,10 +43,27 @@ public class Tunk : Game {
         Deal(cardsDealt);
         ReplaceJokerStart();
 
-        GameManager.gm.handDisplay.cardStack = currentPlayer;
+        GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
     }
 
-    void ReplaceJokerStart() {
+    override
+    public void OnTurnEnd() {
+        Debug.Log("Ended Turn!");
+
+        while (exchange.cardStack.NumberOfCards() != 0) {
+            output.GiveCard(exchange.GetCard());
+        }
+
+        if (deck.cardStack.NumberOfCards() == 0) {
+            OnDeckEmpty();
+        }
+
+        NewTurn();
+    }
+
+    #endregion overrides
+
+    private void ReplaceJokerStart() {
         while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.BlackJoker) {
             if (output.cardStack.NumberOfCards() != 0) {
                 deck.cardStack.AddCardToBottom(output.GetCard());
@@ -54,24 +72,92 @@ public class Tunk : Game {
         }
     }
 
-    void Deal(int cards) {
-        foreach (CardStack hand in playerHands) {
+    private void Deal(int cards) {
+        foreach (Player player in players) {
             for (int i = 0; i < cards; i++) {
-                hand.AddCardToTop(deck.GetCard());
+                player.Hand.AddCardToTop(deck.GetCard());
             }
         }
     }
 
-    public void OnTunkCall(bool empty) {
-        // TODO: point system
+    public void OnTunkCall() {
         Debug.Log("Tunk Called!");
-        for (int i = 0; i < playerHands.Count; i++) {
-            scores[i] = playerHands[i].TotalWorthTunk();
+
+        //sort based on round earning
+        SortByTunkWorth();
+
+        bool tiedHand = players[0].Hand.TotalWorthTunk() == players[1].Hand.TotalWorthTunk();
+
+        if (players[0].Equals(currentPlayer) && !tiedHand) {
+            for (int i = 1; i < players.Count; i++) {
+                players[i].Score += players[i].Hand.TotalWorthTunk();
+            }
+        }
+        else {
+            currentPlayer.Score += 30; //RIP
         }
 
-        if (empty) {
+        if(players[0].Score >= pointCap) {
+            LogTheLeader(true);
+        }
+        else {
+            LogTheLeader(false);
+            SetUp();
+        }
+
+        //TODO : Compare hand leaderboard
+
+
+    }
+
+    public void OnDeckEmpty() {
+        Debug.Log("Emptied Deck!");
+
+        SortByTunkWorth();
+
+        bool tiedHand = players[0].Hand.TotalWorthTunk() == players[1].Hand.TotalWorthTunk();
+
+        if(tiedHand) {
+            int i = 1;
+            players[0].Score += 30;
+
+            while(players[i] == players[i - 1]) {
+                players[i].Score += 30;
+                i++;
+            }
+        }
+
+        LogTheLeader(false);
+        SetUp();
+    }
+
+    private void LogTheLeader(bool gameEnded) {
+        //sort based on total score
+        players.Sort();
+
+        if (players[0].Score == players[1].Score) {
+            int i = 1;
+            string message = $"Players {players[0].ID}";
+
+            while (players[i] == players[i - 1]) {
+                message += $", {players[i].ID}";
+                i++;
+            }
+
+            message += gameEnded ? " won!" : " are in the lead!";
+            Debug.Log(message);
 
         }
+        else {
+            string message = $"Player {players[0].ID} ";
+            message += gameEnded ? " won!" : " is in the lead!";
+            Debug.Log(message);
+        }
+    }
+
+    private void SortByTunkWorth() {
+        //TODO : Get the train of thought to leave the station
+        //TODO : Make sure there is zero case scenario for the beginning call
     }
 
     override
@@ -111,24 +197,9 @@ public class Tunk : Game {
         output.lockPickup = true;
     }
 
-    override
-    public void OnTurnEnd() {
-        Debug.Log("Ended Turn!");
-
-        while (exchange.cardStack.NumberOfCards() != 0) {
-            output.GiveCard(exchange.GetCard());
-        }
-
-        if (deck.cardStack.NumberOfCards() == 0) {
-            OnTunkCall(true);
-        }
-
-        NewTurn();
-    }
-
     void NewTurn() {
-        currentPlayer = playerHands[++turn % playerHands.Count];
-        if (turn >= playerHands.Count) {
+        currentPlayer = players[++turn % players.Count];
+        if (turn >= players.Count) {
             tunkCall.enabled = true;
         }
 
@@ -136,6 +207,6 @@ public class Tunk : Game {
         exchange.lockPlace = false;
         output.lockPickup = false;
 
-        GameManager.gm.handDisplay.cardStack = currentPlayer;
+        GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
     }
 }

@@ -272,12 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7595bfc4b43e4e548ab8655c6695c008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfPlayers: 3
+  numberOfPlayers: 2
   turn: 0
   deck: {fileID: 837733993}
   output: {fileID: 1096629053}
   exchange: {fileID: 1764552104}
   cardsDealt: 5
+  pointCap: 0
   tunkCall: {fileID: 1937571023}
 --- !u!1 &186057243
 GameObject:

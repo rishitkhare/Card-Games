@@ -85,25 +85,25 @@ public class Hand : Interactable {
 #endregion
 
     private void SetSizeOfRenderedHand() {
-        while (renderedCards.Count < cardStack.NumberOfCards()) {
-            //instantiate prefabs
-            GameObject newCard = Instantiate(HandCard, transform.position, Quaternion.identity);
-            renderedCards.Add(newCard.GetComponent<RenderCard>());
-            cardColliders.Add(newCard.GetComponent<Collider2D>());
-            cardFanOuts.Add(newCard.GetComponent<FanOut>());
-            newCard.transform.parent = transform;
-        }
-        /*while (renderedCards.Count > cardStack.NumberOfCards()) {
-            //delete prefabs
-            //TODO : get new computer
-            GameObject objectToDelete = renderedCards[0].gameObject;
-            renderedCards.RemoveAt(0);
-            cardColliders.RemoveAt(0);
-            cardFanOuts.RemoveAt(0);
-            Debug.Log("removed with failsafe");
+        while (renderedCards.Count != cardStack.NumberOfCards()) {
+            if(renderedCards.Count < cardStack.NumberOfCards()) {
+                //instantiate prefabs
+                GameObject newCard = Instantiate(HandCard, transform.position, Quaternion.identity);
+                renderedCards.Add(newCard.GetComponent<RenderCard>());
+                cardColliders.Add(newCard.GetComponent<Collider2D>());
+                cardFanOuts.Add(newCard.GetComponent<FanOut>());
+                newCard.transform.parent = transform;
+            }
+            else {
+                //delete prefabs
+                GameObject objectToDelete = renderedCards[0].gameObject;
+                renderedCards.RemoveAt(0);
+                cardColliders.RemoveAt(0);
+                cardFanOuts.RemoveAt(0);
 
-            Destroy(objectToDelete);
-        }*/
+                Destroy(objectToDelete);
+            }
+        }
     }
 
     private void RenderEachCardInHand() {
