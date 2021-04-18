@@ -94,14 +94,10 @@ public class Tunk : Game {
             }
         }
         else {
-            currentPlayer.Score += 30; //RIP
+            currentPlayer.Score += 30;
         }
 
         SetUpNewRound();
-
-        //TODO : Compare hand leaderboard
-
-
     }
 
     public void OnDeckEmpty() {
@@ -161,7 +157,23 @@ public class Tunk : Game {
     }
 
     private void SortByTunkWorth() {
-        players.OrderBy(p => p.Hand.TotalWorthTunk()).ToList();
+        Player sort = null;
+        int currentMin = 0;
+
+        for (int i = 0; i < players.Count - 1; i++) {
+            currentMin = i;
+            sort = players[i];
+
+            for (int j = i + 1; j < players.Count; j++) {
+                if (players[j].Hand.TotalWorthTunk() < players[i].Hand.TotalWorthTunk()) {
+                    currentMin = j;
+                }
+            }
+
+            players[i] = players[currentMin];
+            players[currentMin] = sort;
+        }
+        //players.OrderBy(p => p.Hand.TotalWorthTunk()).ToList();
     }
 
     override
