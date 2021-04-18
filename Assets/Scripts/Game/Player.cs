@@ -18,7 +18,7 @@ public class Player : IComparable {
     public int CompareTo(object obj) {
         Player other = obj as Player;
 
-        if(other == null) {
+        if(other.GetType() != typeof(Player)) {
             throw new ArgumentException("Comparing two incompatible types");
         }
 
