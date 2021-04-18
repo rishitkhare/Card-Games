@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Tunk : Game {
     public Deck deck;
@@ -22,7 +23,6 @@ public class Tunk : Game {
 
     override
     public void SetUp() {
-        SortByTunkWorth();
         tunkCall.enabled = false;
         deck.lockPlace = true;
         exchange.lockPickup = true;
@@ -97,13 +97,7 @@ public class Tunk : Game {
             currentPlayer.Score += 30; //RIP
         }
 
-        if(players[0].Score >= pointCap) {
-            LogTheLeader(true);
-        }
-        else {
-            LogTheLeader(false);
-            SetUp();
-        }
+        SetUpNewRound();
 
         //TODO : Compare hand leaderboard
 
@@ -127,13 +121,24 @@ public class Tunk : Game {
             }
         }
 
-        LogTheLeader(false);
-        SetUp();
+        SetUpNewRound();
+    }
+
+    private void SetUpNewRound() {
+        players.Sort();
+
+        if (players[0].Score >= pointCap) {
+            LogTheLeader(true);
+        }
+        else {
+            LogTheLeader(false);
+            SortByTunkWorth();
+            SetUp();
+        }
     }
 
     private void LogTheLeader(bool gameEnded) {
         //sort based on total score
-        players.Sort();
 
         if (players[0].Score == players[1].Score) {
             int i = 1;
@@ -156,8 +161,7 @@ public class Tunk : Game {
     }
 
     private void SortByTunkWorth() {
-        //TODO : Get the train of thought to leave the station
-        //TODO : Make sure there is zero case scenario for the beginning call
+        players.OrderBy(p => p.Hand.TotalWorthTunk()).ToList();
     }
 
     override
