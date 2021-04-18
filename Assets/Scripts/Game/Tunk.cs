@@ -5,11 +5,9 @@ using UnityEngine.UI;
 using System.Linq;
 
 public class Tunk : Game {
-    public Deck deck;
     public Deck output;
     public Deck exchange;
 
-    public int cardsDealt;
     public int pointCap;
 
     public Button tunkCall;
@@ -35,15 +33,41 @@ public class Tunk : Game {
         foreach(Player player in players) {
             player.Hand.ClearCardStack();
         }
-
+        
         deck.GenerateDeck(true, true);
+
+        if (!singleDeck) {
+            deck.GenerateDeck(false, true);
+        }
 
         deck.cardStack.Shuffle();
         output.cardStack.IsFaceUp = true;
-        Deal(cardsDealt);
+        Deal();
         ReplaceJokerStart();
 
         GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
+    }
+
+    override
+    public void PickUp(Interactable selectedDeck, Card play) {
+        if (selectedDeck.Equals(GameManager.gm.handDisplay)) {
+            PickupFromHand(play);
+        }
+
+        if (selectedDeck.Equals(deck) || selectedDeck.Equals(output)) {
+            PickupFromDeckOutput();
+        }
+    }
+
+    override
+    public void Place(Interactable selectedDeck, Interactable prevDeck) {
+        if (selectedDeck.Equals(GameManager.gm.handDisplay) && !selectedDeck.Equals(prevDeck)) {
+            OnTurnEnd();
+        }
+
+        if (!(selectedDeck.Equals(GameManager.gm.handDisplay) && prevDeck.Equals(GameManager.gm.handDisplay))) {
+            tunkCall.enabled = false;
+        }
     }
 
     override
@@ -58,25 +82,31 @@ public class Tunk : Game {
             OnDeckEmpty();
         }
 
-        NewTurn();
+        OnNewTurn();
+    }
+
+    override
+    public void OnNewTurn() {
+        currentPlayer = players[++turn % players.Count];
+        if (turn >= players.Count) {
+            tunkCall.enabled = true;
+        }
+
+        deck.lockPickup = false;
+        exchange.lockPlace = false;
+        output.lockPickup = false;
+
+        GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
     }
 
     #endregion overrides
 
     private void ReplaceJokerStart() {
-        while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.BlackJoker) {
+        while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
             if (output.cardStack.NumberOfCards() != 0) {
                 deck.cardStack.AddCardToBottom(output.GetCard());
             }
             output.cardStack.AddCardToTop(deck.GetCard());
-        }
-    }
-
-    private void Deal(int cards) {
-        foreach (Player player in players) {
-            for (int i = 0; i < cards; i++) {
-                player.Hand.AddCardToTop(deck.GetCard());
-            }
         }
     }
 
@@ -176,28 +206,6 @@ public class Tunk : Game {
         //players.OrderBy(p => p.Hand.TotalWorthTunk()).ToList();
     }
 
-    override
-    public void PickUp(Interactable selectedDeck, Card play) {
-        if (selectedDeck.Equals(GameManager.gm.handDisplay)) {
-            PickupFromHand(play);
-        }
-
-        if (selectedDeck.Equals(deck) || selectedDeck.Equals(output)) {
-            PickupFromDeckOutput();
-        }
-    }
-
-    override
-    public void Place(Interactable selectedDeck, Interactable prevDeck) {
-        if (selectedDeck.Equals(GameManager.gm.handDisplay) && !selectedDeck.Equals(prevDeck)) {
-            OnTurnEnd();
-        }
-
-        if (!(selectedDeck.Equals(GameManager.gm.handDisplay) && prevDeck.Equals(GameManager.gm.handDisplay))) {
-            tunkCall.enabled = false;
-        }
-    }
-
     void PickupFromHand(Card play) {
         if (exchange.cardStack.NumberOfCards() != 0) {
             exchange.lockPlace = exchange.cardStack.GetCardRank(0) != play.Rank;
@@ -211,18 +219,5 @@ public class Tunk : Game {
         exchange.lockPlace = true;
         deck.lockPickup = true;
         output.lockPickup = true;
-    }
-
-    void NewTurn() {
-        currentPlayer = players[++turn % players.Count];
-        if (turn >= players.Count) {
-            tunkCall.enabled = true;
-        }
-
-        deck.lockPickup = false;
-        exchange.lockPlace = false;
-        output.lockPickup = false;
-
-        GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
     }
 }

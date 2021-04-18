@@ -10,8 +10,12 @@ public abstract class Game : MonoBehaviour {
     public List<Player> players;
     [HideInInspector]
     public Player currentPlayer;
+    [HideInInspector]
+    public Deck deck;
     [HideInInspector] 
     public int turn;
+    public int cardsDealt;
+    public bool singleDeck;
 
 
     // Start is called before the first frame update
@@ -31,8 +35,17 @@ public abstract class Game : MonoBehaviour {
         }
     }
 
+    public void Deal() {
+        foreach (Player player in players) {
+            for (int i = 0; i < cardsDealt; i++) {
+                player.Hand.AddCardToTop(deck.GetCard());
+            }
+        }
+    }
+
     public abstract void PickUp(Interactable selectedDeck, Card play);
     public abstract void Place(Interactable selectedDeck, Interactable prevDeck);
     public abstract void SetUp();
     public abstract void OnTurnEnd();
+    public abstract void OnNewTurn();
 }
