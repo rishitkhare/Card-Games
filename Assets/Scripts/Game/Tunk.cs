@@ -41,6 +41,7 @@ public class Tunk : Game {
 
         deck.cardStack.Shuffle();
         output.cardStack.IsFaceUp = true;
+        exchange.cardStack.IsFaceUp = true;
         Deal();
         ReplaceJokerStart();
 

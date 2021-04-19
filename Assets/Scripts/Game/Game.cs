@@ -20,7 +20,8 @@ public abstract class Game : MonoBehaviour {
 
     public enum CardGame {
         Tunk,
-        CrazyEights
+        CrazyEights,
+        BS,
     }
 
     [HideInInspector] 
