@@ -8,12 +8,11 @@ public class Tunk : Game {
     public Deck output;
     public Deck exchange;
 
-    public int pointCap;
-
     public Button tunkCall;
 
     // Start is called before the first frame update
     void Start() {
+        game = CardGame.Tunk;
         SetUp();
     }
 
@@ -114,7 +113,7 @@ public class Tunk : Game {
         Debug.Log("Tunk Called!");
 
         //sort based on round earning
-        SortByTunkWorth();
+        SortByHandWorth();
 
         bool tiedHand = players[0].Hand.TotalWorthTunk() == players[1].Hand.TotalWorthTunk();
 
@@ -133,7 +132,7 @@ public class Tunk : Game {
     public void OnDeckEmpty() {
         Debug.Log("Emptied Deck!");
 
-        SortByTunkWorth();
+        SortByHandWorth();
 
         bool tiedHand = players[0].Hand.TotalWorthTunk() == players[1].Hand.TotalWorthTunk();
 
@@ -153,57 +152,16 @@ public class Tunk : Game {
     private void SetUpNewRound() {
         players.Sort();
 
-        if (players[0].Score >= pointCap) {
+        if (players[players.Count - 1].Score >= pointCap) {
             LogTheLeader(true);
+            // end game
         }
+
         else {
             LogTheLeader(false);
-            SortByTunkWorth();
+            SortByHandWorth();
             SetUp();
         }
-    }
-
-    private void LogTheLeader(bool gameEnded) {
-        //sort based on total score
-
-        if (players[0].Score == players[1].Score) {
-            int i = 1;
-            string message = $"Players {players[0].ID}";
-
-            while (players[i] == players[i - 1]) {
-                message += $", {players[i].ID}";
-                i++;
-            }
-
-            message += gameEnded ? " won!" : " are in the lead!";
-            Debug.Log(message);
-
-        }
-        else {
-            string message = $"Player {players[0].ID} ";
-            message += gameEnded ? " won!" : " is in the lead!";
-            Debug.Log(message);
-        }
-    }
-
-    private void SortByTunkWorth() {
-        Player sort = null;
-        int currentMin = 0;
-
-        for (int i = 0; i < players.Count - 1; i++) {
-            currentMin = i;
-            sort = players[i];
-
-            for (int j = i + 1; j < players.Count; j++) {
-                if (players[j].Hand.TotalWorthTunk() < players[i].Hand.TotalWorthTunk()) {
-                    currentMin = j;
-                }
-            }
-
-            players[i] = players[currentMin];
-            players[currentMin] = sort;
-        }
-        //players.OrderBy(p => p.Hand.TotalWorthTunk()).ToList();
     }
 
     void PickupFromHand(Card play) {

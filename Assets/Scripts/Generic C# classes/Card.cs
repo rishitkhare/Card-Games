@@ -1,5 +1,6 @@
 ﻿using System;
 
+[Flags]
 public enum Suit {
     RedJoker = -1,
     BlackJoker = 0,
@@ -13,8 +14,10 @@ public enum DeckColor {
     Blue
 }
 
+[Flags]
 public enum Rank {
     Joker = 0,
+    Ace = 1,
     Two = 2,
     Three = 3,
     Four = 4,
@@ -27,7 +30,6 @@ public enum Rank {
     Jack = 11,
     Queen = 12,
     King = 13,
-    Ace = 1
 }
 public class Card {
 

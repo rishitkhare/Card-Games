@@ -91,6 +91,25 @@ public class CardStack {
         return total;
     }
 
+    public int TotalWorthCrazyEights() {
+        int total = 0;
+        foreach (Card card in cards) {
+            if (card.Rank == (Rank.Two | Rank.Jack | Rank.Queen | Rank.King)) {
+                total += 10;
+            }
+
+            else if (card.Rank == Rank.Eight || card.Suit == (Suit.RedJoker | Suit.BlackJoker)) {
+                total += 50;
+            }
+
+            else {
+                total += card.rankAsInt;
+            }
+        }
+
+        return total;
+    }
+
     public int NumberOfCards() { return cards.Count; }
 
     public Card TakeTopCard() { return TakeCardAt(0); }
