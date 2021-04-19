@@ -42,15 +42,19 @@ public class BS : Game {
         deck.cardStack.Shuffle();
         output.cardStack.IsFaceUp = true;
 
-        cardsDealt = deck.cardStack.NumberOfCards() / players.Count;
-        foreach (Player p in players) {
-            for (int i = 1; i <= cardsDealt; i++) {
-                p.Hand.AddCardToTop(deck.GetCard());
-            }
-        }
+        BSDeal();
 
         while (deck.cardStack.NumberOfCards() != 0) {
             output.cardStack.AddCardToTop(deck.GetCard());
+        }
+
+        for (int i = 0; i < players.Count; i++) {
+            for (int j = 0; j < cardsDealt; j++) {
+                if (players[i].Hand.GetCardRank(j) == Rank.Ace && players[i].Hand.GetCardSuit(j) == Suit.Spades) {
+                    currentPlayer = players[turn = i];
+                    break;
+                }
+            }
         }
 
         GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
@@ -63,6 +67,19 @@ public class BS : Game {
 
     override
     public void OnNewTurn() {
+
+    }
+
+    private void BSDeal() {
+        cardsDealt = deck.cardStack.NumberOfCards() / players.Count;
+        foreach (Player p in players) {
+            for (int i = 1; i <= cardsDealt; i++) {
+                p.Hand.AddCardToTop(deck.GetCard());
+            }
+        }
+    }
+
+    public void OnBSCall() {
 
     }
 }
