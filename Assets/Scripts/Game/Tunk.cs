@@ -20,6 +20,7 @@ public class Tunk : Game {
 
     override
     public void SetUp() {
+        turn = 0;
         tunkCall.enabled = false;
         deck.lockPlace = true;
         exchange.lockPickup = true;
@@ -61,12 +62,15 @@ public class Tunk : Game {
 
     override
     public void Place(Interactable selectedDeck, Interactable prevDeck) {
-        if (selectedDeck.Equals(GameManager.gm.handDisplay) && !selectedDeck.Equals(prevDeck)) {
-            OnTurnEnd();
-        }
 
+        //If you start doing ur turn, then disable tunk
         if (!(selectedDeck.Equals(GameManager.gm.handDisplay) && prevDeck.Equals(GameManager.gm.handDisplay))) {
             tunkCall.enabled = false;
+        }
+
+        //If the move is final, end turn
+        if (selectedDeck.Equals(GameManager.gm.handDisplay) && !selectedDeck.Equals(prevDeck)) {
+            OnTurnEnd();
         }
     }
 
@@ -90,7 +94,9 @@ public class Tunk : Game {
         currentPlayer = players[++turn % players.Count];
         if (turn >= players.Count) {
             tunkCall.enabled = true;
+            Debug.Log("you can now call tunk");
         }
+        Debug.Log(turn);
 
         deck.lockPickup = false;
         exchange.lockPlace = false;
@@ -122,9 +128,11 @@ public class Tunk : Game {
             for (int i = 1; i < players.Count; i++) {
                 players[i].Score += players[i].Hand.TotalWorthTunk();
             }
+            Debug.Log("Tunk succeeded! Git TUNK'd on!");
         }
         else {
             currentPlayer.Score += 30;
+            Debug.Log("tunk failed!");
         }
 
         SetUpNewRound();
@@ -137,11 +145,12 @@ public class Tunk : Game {
 
         bool tiedHand = players[0].Hand.TotalWorthTunk() == players[1].Hand.TotalWorthTunk();
 
+        players[0].Score += 30;
+
         if(tiedHand) {
             int i = 1;
-            players[0].Score += 30;
 
-            while(players[i] == players[i - 1]) {
+            while(players[i].Hand.TotalWorthTunk() == players[i - 1].Hand.TotalWorthTunk()) {
                 players[i].Score += 30;
                 i++;
             }

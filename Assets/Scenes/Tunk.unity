@@ -273,12 +273,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPlayers: 2
-  turn: 0
-  deck: {fileID: 837733993}
+  cardsDealt: 25
+  singleDeck: 1
+  pointCap: 100
+  game: 0
   output: {fileID: 1096629053}
   exchange: {fileID: 1764552104}
-  cardsDealt: 5
-  pointCap: 0
   tunkCall: {fileID: 1937571023}
 --- !u!1 &186057243
 GameObject:
@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 837733993}
   m_Layer: 0
   m_Name: Deck
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1963,7 +1963,7 @@ MonoBehaviour:
       - m_Target: {fileID: 161361858}
         m_TargetAssemblyTypeName: Tunk, Assembly-CSharp
         m_MethodName: OnTunkCall
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
