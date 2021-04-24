@@ -7,10 +7,13 @@ public class GameManager : MonoBehaviour
     public List<Interactable> interactableDecks;
     public CardSpriteArray spriteArray;
     public static GameManager gm;
+
     [HideInInspector]
     public Camera mainCamera;
+
     [HideInInspector]
     public CardSelector cardSelector;
+    
 
     public Hand handDisplay;
 

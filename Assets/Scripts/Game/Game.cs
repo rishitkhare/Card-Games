@@ -5,19 +5,17 @@ using UnityEngine.UI;
 
 public abstract class Game : MonoBehaviour {
 
-    public int numberOfPlayers;
-    [HideInInspector] 
-    public List<Player> players;
-    [HideInInspector]
-    public Player currentPlayer;
-    [HideInInspector]
-    public Deck deck;
-    [HideInInspector] 
-    public int turn;
-    public int cardsDealt;
-    public bool singleDeck;
-    public int pointCap;
+    //SERIALIZED FIELDS DO NOT TOUCH I'M TALKING TO YOU
+    public int numberOfPlayers = 2;
+    public int cardsDealt = 5;
+    public bool singleDeck = true;
+    public int pointCap = 100;
 
+
+    protected List<Player> players;
+    protected Player currentPlayer;
+    protected Deck deck;
+    protected int turn;
     public enum CardGame {
         Tunk,
         CrazyEights,
@@ -29,8 +27,8 @@ public abstract class Game : MonoBehaviour {
 
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
+        deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>(); //help
         players = new List<Player>();
         AddPlayersToGame();
         currentPlayer = players[0];
@@ -86,13 +84,20 @@ public abstract class Game : MonoBehaviour {
         //sort based on total score
 
         if (players[0].Score == players[1].Score) {
-            int i = 1;
-            string message = $"Players {players[0].ID}";
+            int i = 0;
+            string message = $"Players ";
 
-            while (players[i] == players[i - 1]) {
-                message += $", {players[i].ID}";
+            while (players[i].Score == players[i + 1].Score) {
+                message += $"{players[i].ID}, ";
                 i++;
+                if(i + 1 >= players.Count) {
+                    break;
+                }
             }
+
+            message += $"{players[i].ID}, ";
+
+            message = message.Substring(0, message.Length - 2);
 
             message += gameEnded ? " won!" : " are in the lead!";
             Debug.Log(message);
