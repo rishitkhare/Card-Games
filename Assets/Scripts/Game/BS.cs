@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.UI;
 
 
 public class BS : Game {
     public Deck output;
+
+    public Button BSCall;
+    public List<Button> PlayerList;
 
     void Start() {
         game = CardGame.BS;
