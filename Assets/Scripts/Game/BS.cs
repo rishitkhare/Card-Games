@@ -11,6 +11,7 @@ public class BS : Game {
         game = CardGame.BS;
         SetUp();
     }
+
     override
     public void PickUp(Interactable selectedDeck, Card play) {
 
@@ -24,6 +25,7 @@ public class BS : Game {
     override
     public void SetUp() {
         deck.lockPlace = true;
+        deck.lockPickup = true;
         output.lockPickup = true;
 
         deck.cardStack.ClearCardStack();
@@ -67,7 +69,8 @@ public class BS : Game {
 
     override
     public void OnNewTurn() {
-
+        currentPlayer = players[++turn % players.Count];
+        GameManager.gm.handDisplay.cardStack = currentPlayer.Hand;
     }
 
     private void BSDeal() {
