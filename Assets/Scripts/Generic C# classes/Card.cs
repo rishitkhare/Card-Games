@@ -2,12 +2,13 @@
 
 [Flags]
 public enum Suit {
-    RedJoker = -1,
-    BlackJoker = 0,
+    None = 0,
     Spades = 1,
-    Clubs = 2,
-    Hearts = 3,
-    Diamonds = 4
+    Clubs = 1 << 1,
+    Hearts = 1 << 2,
+    Diamonds = 1 << 3,
+    RedJoker = 1 << 4,
+    BlackJoker = 1 << 5
 }
 public enum DeckColor {
     Red,

@@ -197,27 +197,27 @@ public class CrazyEights : Game {
         if (play.Rank != Rank.Eight) {
 
             if (output.cardStack.GetCardRank(0) == Rank.Eight) {
-                if (ChooseSuit() == (Suit.Hearts | Suit.Diamonds)) {
+                if (ChooseSuit() == Suit.Hearts || ChooseSuit() == Suit.Diamonds) {
 
                     // returns if card is not chosen red suit or joker
-                    return (play.Suit != (ChooseSuit() | Suit.RedJoker));
+                    return (play.Suit & (ChooseSuit() | Suit.RedJoker)) == Suit.None;
                 }
 
-                else if (ChooseSuit() == (Suit.Spades | Suit.Clubs)) {
+                else if (ChooseSuit() == Suit.Hearts || ChooseSuit() == Suit.Diamonds) {
 
                     // returns if card is not chosen black suit or joker
-                    return (play.Suit != (ChooseSuit() | Suit.BlackJoker));
+                    return (play.Suit & (ChooseSuit() | Suit.BlackJoker)) == Suit.None;
                 }
             }
 
-            if (output.cardStack.GetCardSuit(0) == (Suit.BlackJoker | Suit.RedJoker)) {
+            if (output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
 
                 // returns if card is not the same color as output joker
-                return (( output.cardStack.GetCardSuit(0) == Suit.BlackJoker && (play.Suit != (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) ) ||
-                        ( output.cardStack.GetCardSuit(0) == Suit.RedJoker && (play.Suit != (Suit.Diamonds | Suit.Hearts | Suit.RedJoker)) ));
+                return (( output.cardStack.GetCardSuit(0) == Suit.BlackJoker && (play.Suit & (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) == Suit.None ) ||
+                        ( output.cardStack.GetCardSuit(0) == Suit.RedJoker && (play.Suit & (Suit.Diamonds | Suit.Hearts | Suit.RedJoker)) == Suit.None ));
             }
 
-            if (play.Suit != (Suit.RedJoker | Suit.BlackJoker)) {
+            if (play.Suit != Suit.RedJoker || play.Suit != Suit.BlackJoker) {
 
                 // returns if card is not same rank and not same suit
                 return (play.Rank != output.cardStack.GetCardRank(0) && play.Suit != output.cardStack.GetCardSuit(0));
@@ -226,8 +226,8 @@ public class CrazyEights : Game {
             else {
 
                 // returns if card joker is not the same color as output
-                return (( play.Suit == Suit.BlackJoker && (output.cardStack.GetCardSuit(0) != (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) ) ||
-                        ( play.Suit == Suit.RedJoker && (output.cardStack.GetCardSuit(0) != (Suit.Hearts | Suit.Diamonds | Suit.RedJoker)) ));
+                return (( play.Suit == Suit.BlackJoker && (output.cardStack.GetCardSuit(0) & (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) == Suit.None ) ||
+                        ( play.Suit == Suit.RedJoker && (output.cardStack.GetCardSuit(0) & (Suit.Hearts | Suit.Diamonds | Suit.RedJoker)) == Suit.None ));
             }
         }
 
