@@ -1,0 +1,47 @@
+BS
+
+--- Fields ---
+
+List of Hands
+3 Card Stacks
+	Deck (no joker) (or two depending on amount of people)
+		(should be empty after set-up)
+	Output Pile
+	Undistributed cards
+Point Counter
+
+--- Set-Up ---
+
+Shuffle Deck
+Randomize index of hand list
+Pass all cards from deck to every Hand until distribution becomes uneven
+Place undistributed cards on undis. pile face up
+
+Person with Ace of Spades starts (randomize if many have Ace of Spades)
+
+--- Game ---
+
+while every hand size > 0 || first hand size = 0:
+
+	if previous hand has zero cards && any hand thinks previous hand bluffed:
+		call BS
+
+		if bluff is true:
+			output pile transferred to bluffing hand
+		else:
+			output pile transferred to calling hand
+
+	else if any hand thinks previous hand bluffed:
+		call BS
+
+		if bluff is true:
+			output pile transferred to bluffing hand
+		else:
+			output pile transferred to calling hand
+
+	Hand places any number of cards to output pile
+	Check if hand played the sequential rank (boolean)
+
+round over
+Add number of cards in hand to point counter minus number of bluffs called successfully
+Start new round (set-up)

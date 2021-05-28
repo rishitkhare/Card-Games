@@ -1,0 +1,43 @@
+Tunk
+
+--- Fields ---
+
+List of Hands
+2 Card Stacks
+	Deck (or two depending on amount of people)
+	Output / Exchange Pile
+Point Counter
+	per round
+	total
+
+--- Set-Up ---
+
+Shuffle Deck
+Pass 7 cards to each hand
+Place one card from deck into empty output pile
+
+--- Game ---
+
+while tunk not called || deck not empty:
+
+	if deck is empty:
+		points per hand calculated
+		hand(s) with lowest points = total points +30
+
+	if !first round and hand calls tunk:
+		break out of while loop
+
+	Hand places any number of cards of the same rank to output pile
+		Chooses whether to exchange from pile or draw from deck
+	
+hand calls tunk
+points per hand calculated
+	
+	if calling hand is not lowest (even if tied):
+		total points +30 for calling hand
+	else:
+		total points +(hand points) for every other hand
+	
+round over
+start new round (set-up)
+	

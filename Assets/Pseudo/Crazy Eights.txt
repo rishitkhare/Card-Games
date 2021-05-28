@@ -1,0 +1,75 @@
+Crazy Eights
+
+--- Fields ---
+
+List of Hands
+2 Card Stacks
+	Deck (or two depending on amount of people)
+	Output Pile
+Point Counter
+	per round
+	total
+
+--- Set-Up ---
+
+Shuffle Deck
+Randomize index of Hand List
+Pass 5 cards to each hand
+
+Place one card from deck into empty output pile
+while output card is special card:
+	place card into back of deck and output new card from deck
+
+Special Cards
+	8 - can be played anytime; specify suit for next hand
+		50 points
+	2 - next hand draws 2 and skips
+	Q - reverse order of turns
+	Joker - can be played on same suit color; choose any Hand to draw 4 cards and play continues from receiving Hand.
+		50 points
+
+A - 1 Point
+2, 10, J, Q, K - 10 Points
+
+--- Game ---
+
+while size of every hand > 0:
+
+	if previous card was Joker && chosen by previous hand:
+		draw 4
+
+		while no cards can be played || want to draw:
+			draw card from deck
+
+		play any card of same color || 8
+
+	else if previous card was 2:
+		draw 2
+		next Hand's turn
+
+	else if previous card was 8:
+
+		while no cards can be played || want to draw:
+			draw card from deck
+
+		play specified suit || 8
+
+	else:
+		while no cards can be played || want to draw:
+			draw card from deck
+
+		Hand places any card of same suit || rank || 8 || joker of same color
+
+	if Joker played:
+		choose hand to draw and continue
+
+	if Q played:
+		Hand List index reversed
+
+	if 8 played:
+		choose next suit to be played
+
+round over
+calculate points per hand
+add to total for each hand
+start new round (set-up)

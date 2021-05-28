@@ -1,0 +1,59 @@
+Graveyard
+
+
+--- Fields ---
+
+List of Hands
+Card Stacks
+	Deck (no joker) (or two depending on amount of people)
+	Output Pile
+	Player
+		3 Stacks of one card undisclosed (bottom stack)
+		3 stacks of one card from hand on top of bottom stack (top stack)
+Point Counter
+
+--- Set-Up ---
+
+Shuffle Deck
+Randomize index of hand list
+Pass 3 cards onto player stacks
+Pass 6 cards to each hand
+Place one card from deck into empty output pile
+
+Special Cards
+	2 - can be played at any time
+	7 - played like a normal card, next hand plays lower value
+	10 - played any time except A, trumps 7, clears output pile except for 10.
+
+--- Game ---
+
+while two or more people have cards in hand || cards in player stacks:
+
+	if hand && both player stacks are empty:
+		pass turn
+
+	if hand is empty && top stack is empty && bottom stack !empty:
+		choose card to flip
+	
+		if flipped card is invalid:
+			transfer output pile into hand
+	
+		if legal 10 played:
+			transfer output cards to deck except for 10
+
+	if no cards can be played:
+		transfer output pile into hand
+
+	Hand places any number of cards of the same rank higher than card on output pile
+	(any number of cards of same rank if no cards in output pile) 
+	(any number of cards of same rank lower if 7 is played, except for 10)
+
+		if 10 played:
+			transfer output cards to deck except for 10
+
+	if hand is empty for first time:
+		top stack transferred to hand
+
+hand gets (number of players - order finished) points
+round over
+start new round (set-up)
