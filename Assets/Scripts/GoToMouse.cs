@@ -21,11 +21,11 @@ public class GoToMouse : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         float initialRotX = transform.eulerAngles.x;
         float initialRotY = transform.eulerAngles.y;
 
-        float timeScale = Time.deltaTime * 60f;
+        float timeScale = Time.fixedDeltaTime * 60f;
         Vector2 MouseWorldSpace = cam.ScreenToWorldPoint(Input.mousePosition);
         rotationZ += (previousPosition - MouseWorldSpace).x * timeScale;
 

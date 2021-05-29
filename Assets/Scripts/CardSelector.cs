@@ -73,7 +73,9 @@ public class CardSelector : MonoBehaviour {
         else {
             render.renderedCard = null;
         }
+    }
 
+    void FixedUpdate() {
         FlipCard(selectedDeck);
     }
 

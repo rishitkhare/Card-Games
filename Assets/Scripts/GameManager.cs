@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public List<Interactable> interactableDecks;
     public CardSpriteArray spriteArray;
+    public GameObject CanvasGameObject;
     public static GameManager gm;
 
     [HideInInspector]

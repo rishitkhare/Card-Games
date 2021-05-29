@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPlayers: 2
-  cardsDealt: 25
+  cardsDealt: 4
   singleDeck: 1
   pointCap: 100
   game: 0

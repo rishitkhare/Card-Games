@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +9,25 @@ public class CrazyEights : Game {
     public Deck output;
     public bool reverse;
 
+    public GameObject ButtonPrefab;
+
+    public List<Button> suitButtons;
+
+    List<ButtonData> PlayerButtons;
+
     void Start() {
         game = CardGame.CrazyEights;
+
+        PlayerButtons = new List<ButtonData>();
+
+        for(int i = 0; i < numberOfPlayers; i++) {
+            //set up button for each player
+            GameObject buttonObject = Instantiate(ButtonPrefab, GameManager.gm.CanvasGameObject.transform);
+            PlayerButtons.Add(buttonObject.GetComponent<ButtonData>());
+            PlayerButtons[i].textComponent.text = $"Player {i + 1}";
+            PlayerButtons[i].rectTransform.anchoredPosition = new Vector3(-90f, -40f * (i + 1));
+        }
+
         SetUp();
     }
 
@@ -40,7 +59,8 @@ public class CrazyEights : Game {
         deck.cardStack.ClearCardStack();
         output.cardStack.ClearCardStack();
 
-        foreach (Player player in players) {
+        foreach(Player player in players) {
+            //clear hand
             player.Hand.ClearCardStack();
         }
 
@@ -155,7 +175,7 @@ public class CrazyEights : Game {
 
         else if (output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
             // implement J (buttons)
-            int chosenPlayerIndex = ChoosePlayer();
+            int chosenPlayerIndex = 0;//ChoosePlayer();
             turn = reverse ? turn - Math.Abs(turn % players.Count - chosenPlayerIndex) : turn + Math.Abs(turn % players.Count - chosenPlayerIndex);
 
             for (int i = 1; i <= 4; i++) {
@@ -188,8 +208,9 @@ public class CrazyEights : Game {
     }
 
     // TODO
-    private int ChoosePlayer() {
-        return 0;
+    public void ChoosePlayer(int playerID) {
+
+        return; //from the dead
     }
 
     private bool InvalidPlace(Card play) {

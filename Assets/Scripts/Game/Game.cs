@@ -28,7 +28,7 @@ public abstract class Game : MonoBehaviour {
 
     // Start is called before the first frame update
     void Awake() {
-        deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>(); //help
+        deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         players = new List<Player>();
         AddPlayersToGame();
         currentPlayer = players[0];

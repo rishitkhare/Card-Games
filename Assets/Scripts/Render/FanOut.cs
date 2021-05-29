@@ -18,9 +18,9 @@ public class FanOut : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         framesPerSampleCounter++;
-        if(framesPerSampleCounter %  parentHand.framesPerSample == 0) {
+        if(framesPerSampleCounter % parentHand.framesPerSample == 0) {
             Interpolate();
         }
     }
