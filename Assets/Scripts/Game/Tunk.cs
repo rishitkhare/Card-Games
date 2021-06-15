@@ -30,9 +30,7 @@ public class Tunk : Game {
         output.cardStack.ClearCardStack();
         exchange.cardStack.ClearCardStack();
         
-        foreach(Player player in players) {
-            player.Hand.ClearCardStack();
-        }
+        players.ForEach(p => p.Hand.ClearCardStack());
         
         deck.GenerateDeck(true, true);
 
@@ -108,7 +106,7 @@ public class Tunk : Game {
     #endregion overrides
 
     private void ReplaceJokerStart() {
-        while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
+        while (output.cardStack.NumberOfCards() == 0 || output.cardStack.GetCardRank(0) == Rank.Joker) {
             if (output.cardStack.NumberOfCards() != 0) {
                 deck.cardStack.AddCardToBottom(output.GetCard());
             }

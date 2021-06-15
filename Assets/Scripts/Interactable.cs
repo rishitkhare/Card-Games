@@ -8,8 +8,6 @@ public abstract class Interactable : MonoBehaviour {
     public bool lockPlace = false;
 
     public abstract Card GetCard(Vector2 point);
-    public Card GetCard() {
-        return cardStack.TakeTopCard();
-    }
+    public Card GetCard() => cardStack.TakeTopCard();
     public abstract void GiveCard(Card card);
 }

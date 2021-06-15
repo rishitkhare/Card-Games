@@ -8,8 +8,18 @@ public enum Suit {
     Hearts = 1 << 2,
     Diamonds = 1 << 3,
     RedJoker = 1 << 4,
-    BlackJoker = 1 << 5
+    BlackJoker = 1 << 5,
 }
+
+[Flags]
+public enum SuitCombo {
+    Blacks = Suit.Spades | Suit.Clubs,
+    AllBlacks = Blacks | Suit.BlackJoker,
+    Reds = Suit.Hearts | Suit.Diamonds,
+    AllReds = Reds | Suit.RedJoker,
+    Jokers = Suit.RedJoker | Suit.BlackJoker
+}
+
 public enum DeckColor {
     Red,
     Blue
@@ -35,7 +45,7 @@ public enum Rank {
 public class Card {
 
     public Suit Suit { get; }
-    public int rankAsInt { get { return (int) Rank; } }
+    public int rankAsInt { get => (int) Rank; }
 
     public Rank Rank{ get; }
 
@@ -44,10 +54,13 @@ public class Card {
     public Card(Suit suit, Rank rank, DeckColor back) {
         Suit = suit;
         Rank = rank;
-        if((suit <= 0 && rank != Rank.Joker)
-            || (suit > 0 && rank == Rank.Joker)) {
+        double power = Math.Log((int)Suit, 2);
+
+        if(Suit <= 0 || Suit > Suit.BlackJoker || (int) Math.Ceiling(power) != (int) Math.Floor(power) || //checks if suit is not power of 2
+           rank < 0 || rank > Rank.King) {
             throw new ArgumentException();
         }
+
         DeckColor = back;
     }
 
@@ -56,22 +69,12 @@ public class Card {
     override
     public string ToString() {
         if(Rank != Rank.Joker) {
-            if(rankAsInt <= 10 && rankAsInt != 1) {
-                return rankAsInt + " of " + Suit;
-            }
-            //else
-            return Rank + " of " + Suit;
+            return ((Rank <= Rank.Ten && Rank != Rank.Ace) ? "" + rankAsInt : "" + Rank) + " of " + Suit;
         }
-        else {
-            return "Joker";
-        }
+
+        return "Joker";
     }
     
-    public int RankCompareTo(Card other) {
-        return rankAsInt - other.rankAsInt;
-    }
-
-    public int SuitCompareTo(Card other) {
-        return (int)Suit - (int)other.Suit;
-    }
+    public int RankCompareTo(Card other) => rankAsInt - other.rankAsInt;
+    public int SuitCompareTo(Card other) => (int)Suit - (int)other.Suit;
 }

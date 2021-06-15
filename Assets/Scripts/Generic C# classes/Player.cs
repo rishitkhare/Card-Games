@@ -15,13 +15,6 @@ public class Player : IComparable {
         Hand = new CardStack(true);
     }
 
-    public int CompareTo(object obj) {
-        Player other = obj as Player;
-
-        if(other.GetType() != typeof(Player)) {
-            throw new ArgumentException("Comparing two incompatible types");
-        }
-
-        return this.Score.CompareTo(other.Score);
-    }
+    public int CompareTo(object obj) => (obj as Player).GetType() != typeof(Player) ? 
+        throw new ArgumentException("Comparing two incompatible types") : this.Score.CompareTo((obj as Player).Score);
 }

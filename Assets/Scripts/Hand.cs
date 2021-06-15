@@ -85,6 +85,8 @@ public class Hand : Interactable {
 #endregion
 
     private void SetSizeOfRenderedHand() {
+        if (cardStack == null) { Debug.Log("cardStack"); }
+
         while (renderedCards.Count != cardStack.NumberOfCards()) {
             if(renderedCards.Count < cardStack.NumberOfCards()) {
                 //instantiate prefabs

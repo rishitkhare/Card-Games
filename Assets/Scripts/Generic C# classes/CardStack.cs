@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(RenderCard))]
 public class CardStack {
@@ -34,28 +35,17 @@ public class CardStack {
     public string ToString() {
         string answer = cards.Count.ToString() + " Cards:\n";
 
-        for(int i = 0; i < cards.Count; i++) {
+        for (int i = 0; i < cards.Count; i++) {
             answer += cards[i] + "\n";
         }
 
         return answer;
     }
 
-    public Suit GetCardSuit(int index) {
-        return cards[index].Suit;
-    }
-
-    public Rank GetCardRank(int index) {
-        return cards[index].Rank;
-    }
-
-    public int GetCardNumber(int index) {
-        return cards[index].rankAsInt;
-    }
-
-    public DeckColor GetCardBack(int index) {
-        return cards[index].DeckColor;
-    }
+    public Suit GetCardSuit(int index) => cards[index].Suit;
+    public Rank GetCardRank(int index) => cards[index].Rank;
+    public int GetCardNumber(int index) => cards[index].rankAsInt;
+    public DeckColor GetCardBack(int index) => cards[index].DeckColor;
 
     //cards are removed from deck when taken.
     public Card TakeCardAt(int index) {
@@ -65,55 +55,24 @@ public class CardStack {
 
             return myCard;
         }
-        catch(ArgumentOutOfRangeException) {
+        catch (ArgumentOutOfRangeException) {
             //empty deck returns null.
             return null;
         }
     }
 
-    public int TotalWorth() {
-        int total = 0;
+    public int TotalWorth() => cards.Sum(c => c.rankAsInt);
+    public int TotalWorthTunk() => cards.Sum(c => Math.Min(c.rankAsInt, (int)Rank.Ten));
+    public int TotalWorthCrazyEights() => cards.Sum(c =>
+        (c.Rank == Rank.Two || c.Rank == Rank.Jack || c.Rank == Rank.Queen || c.Rank == Rank.King) ?
+            10 :
+        (c.Rank == Rank.Eight || c.Rank == Rank.Joker) ?
+            50 :
+        c.rankAsInt);
 
-        foreach (Card card in cards) {
-            total += card.rankAsInt;
-        }
-
-        return total;
-    }
-
-    public int TotalWorthTunk() {
-        int total = 0;
-
-        foreach (Card card in cards) {
-            total += (card.rankAsInt < 10) ? card.rankAsInt : 10;
-        }
-
-        return total;
-    }
-
-    public int TotalWorthCrazyEights() {
-        int total = 0;
-        foreach (Card card in cards) {
-            if (card.Rank == (Rank.Two | Rank.Jack | Rank.Queen | Rank.King)) {
-                total += 10;
-            }
-
-            else if (card.Rank == Rank.Eight || card.Suit == (Suit.RedJoker | Suit.BlackJoker)) {
-                total += 50;
-            }
-
-            else {
-                total += card.rankAsInt;
-            }
-        }
-
-        return total;
-    }
-
-    public int NumberOfCards() { return cards.Count; }
-
-    public Card TakeTopCard() { return TakeCardAt(0); }
-    public Card TakeBottomCard() { return TakeCardAt(cards.Count - 1); }
+    public int NumberOfCards() => cards.Count;
+    public Card TakeTopCard() => TakeCardAt(0);
+    public Card TakeBottomCard() => TakeCardAt(cards.Count - 1);
 
     #endregion
 
@@ -121,15 +80,19 @@ public class CardStack {
     #region Mutators
 
     public void GenerateDeck52(DeckColor deckColor) {
-        foreach(Suit suit in Enum.GetValues(typeof(Suit))) {
+        foreach (Suit suit in Enum.GetValues(typeof(Suit))) {
             foreach (Rank rank in Enum.GetValues(typeof(Rank))) {
-                // suit > 0 means card is not joker
-                if(suit > 0 && rank != Rank.Joker) {
+                if (suit > Suit.None && suit < Suit.RedJoker && rank != Rank.Joker) {
                     AddCardToTop(new Card(suit, rank, deckColor));
                 }
             }
         }
 
+        //      BRUH PLS NO
+
+        //      ((IEnumerable<Suit>)Enum.GetValues(typeof(Suit))).Where(suit => suit > Suit.None && suit < Suit.RedJoker).ToList()
+        //          .ForEach(suit => ((IEnumerable<Rank>)Enum.GetValues(typeof(Rank))).Where(rank => rank != Rank.Joker).ToList()
+        //          .ForEach(rank => AddCardToTop(new Card(suit, rank, deckColor))));
     }
 
     public void GenerateDeck54(DeckColor deckColor) {
@@ -142,31 +105,19 @@ public class CardStack {
         System.Random rand = new System.Random();
         List<Card> newCards = new List<Card>();
 
-        while(cards.Count != 0) {
+        while (cards.Count != 0) {
             int index = rand.Next(cards.Count);
             newCards.Add(cards[index]);
             cards.RemoveAt(index);
         }
 
         cards = newCards;
-        
     }
 
-    public void AddCardAt(int index, Card newCard) {
-        cards.Insert(index, newCard);
-    }
-
-    public void AddCardToTop(Card newCard) {
-        cards.Insert(0, newCard);
-    }
-
-    public void AddCardToBottom(Card newCard) {
-        cards.Add(newCard);
-    }
-
-    public void ClearCardStack() {
-        cards.Clear();
-    }
+    public void AddCardAt(int index, Card newCard) => cards.Insert(index, newCard);
+    public void AddCardToTop(Card newCard) => cards.Insert(0, newCard);
+    public void AddCardToBottom(Card newCard) => cards.Add(newCard);
+    public void ClearCardStack() => cards.Clear();
 
     #endregion
 

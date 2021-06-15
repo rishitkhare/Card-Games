@@ -1,31 +1,47 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 public class CrazyEights : Game {
     public Deck output;
-    public bool reverse;
+    private bool reverse;
+    private Suit chosenSuit = Suit.None;
+    private int chosenPlayerIndex = -1;
 
     public GameObject ButtonPrefab;
-
-    public List<Button> suitButtons;
-
-    List<ButtonData> PlayerButtons;
+    List<ButtonData> suitButtons;
+    List<ButtonData> playerButtons;
 
     void Start() {
         game = CardGame.CrazyEights;
 
-        PlayerButtons = new List<ButtonData>();
+        playerButtons = new List<ButtonData>();
+        suitButtons = new List<ButtonData>();
 
         for(int i = 0; i < numberOfPlayers; i++) {
             //set up button for each player
             GameObject buttonObject = Instantiate(ButtonPrefab, GameManager.gm.CanvasGameObject.transform);
-            PlayerButtons.Add(buttonObject.GetComponent<ButtonData>());
-            PlayerButtons[i].textComponent.text = $"Player {i + 1}";
-            PlayerButtons[i].rectTransform.anchoredPosition = new Vector3(-90f, -40f * (i + 1));
+            playerButtons.Add(buttonObject.GetComponent<ButtonData>());
+            playerButtons[i].textComponent.text = $"Player {i + 1}";
+            playerButtons[i].rectTransform.anchoredPosition = new Vector3(-300f, -40f * (i + 1));
+            playerButtons[i].button.enabled = false;
+            int fuckingeventsbro = i;
+            playerButtons[i].button.onClick.AddListener(() => ChoosePlayer(fuckingeventsbro));
+        }
+
+        for (int i = 0; i < 4; i++) {
+            GameObject buttonObject = Instantiate(ButtonPrefab, GameManager.gm.CanvasGameObject.transform);
+            suitButtons.Add(buttonObject.GetComponent<ButtonData>());
+            Suit currentSuit = (Suit)(1 << i);
+            suitButtons[i].textComponent.text = "" + currentSuit;
+            suitButtons[i].rectTransform.anchoredPosition = new Vector3(300f, -300f + -40f * (i + 1));
+            suitButtons[i].button.enabled = false;
+            suitButtons[i].button.onClick.AddListener(() => ChooseSuit(currentSuit));
         }
 
         SetUp();
@@ -39,14 +55,19 @@ public class CrazyEights : Game {
         }
 
         if (selectedDeck.Equals(deck)) {
-            PickUpFromDeck();
+            PickUpFromDeck(play);
         }
     }
 
     override
     public void Place(Interactable selectedDeck, Interactable prevDeck) {
         if (selectedDeck.Equals(output)) {
-            OnTurnEnd();
+            deck.lockPickup = true;
+            output.lockPlace = true;
+
+            if (!CardEffect()) {
+                OnTurnEnd();
+            }
         }
     }
 
@@ -59,10 +80,7 @@ public class CrazyEights : Game {
         deck.cardStack.ClearCardStack();
         output.cardStack.ClearCardStack();
 
-        foreach(Player player in players) {
-            //clear hand
-            player.Hand.ClearCardStack();
-        }
+        players.ForEach(p => p.Hand.ClearCardStack());
 
         deck.GenerateDeck(true, true);
 
@@ -81,7 +99,7 @@ public class CrazyEights : Game {
     override
     public void OnTurnEnd() {
         bool roundOver = false;
-        CardEffect();
+        Debug.Log(turn);
         foreach (Player p in players) {
             if (p.Hand.NumberOfCards() == 0) {
                 roundOver = true;
@@ -97,6 +115,7 @@ public class CrazyEights : Game {
 
     override
     public void OnNewTurn() {
+        deck.lockPickup = false;
         output.lockPlace = false;
 
         currentPlayer = players[turn % players.Count];
@@ -106,9 +125,7 @@ public class CrazyEights : Game {
     #endregion overrides
 
     private void OnRoundOver() {
-        foreach (Player p in players) {
-            p.Score += p.Hand.TotalWorthCrazyEights();
-        }
+        players.ForEach(p => p.Score += p.Hand.TotalWorthCrazyEights());
 
         players.Sort();
         if (players[players.Count - 1].Score >= pointCap) {
@@ -121,7 +138,6 @@ public class CrazyEights : Game {
             SortByHandWorth();
             SetUp();
         }
-        
     }
 
     private void ReplaceSpecial() {
@@ -129,8 +145,7 @@ public class CrazyEights : Game {
             output.cardStack.GetCardRank(0) == Rank.Eight ||
             output.cardStack.GetCardRank(0) == Rank.Two ||
             output.cardStack.GetCardRank(0) == Rank.Queen ||
-            output.cardStack.GetCardSuit(0) == Suit.BlackJoker ||
-            output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
+            output.cardStack.GetCardRank(0) == Rank.Joker) {
 
             if (output.cardStack.NumberOfCards() != 0) {
                 deck.cardStack.AddCardToBottom(output.GetCard());
@@ -140,8 +155,8 @@ public class CrazyEights : Game {
         }
     }
 
-    private void PickUpFromDeck() {
-        output.lockPlace = true;
+    private void PickUpFromDeck(Card play) {
+        output.lockPlace = InvalidPlace(play);
 
         if (deck.cardStack.NumberOfCards() == 0) {
             for (int i = 1; i < output.cardStack.NumberOfCards(); i++) {
@@ -156,104 +171,112 @@ public class CrazyEights : Game {
         output.lockPlace = InvalidPlace(play);
     }
 
-    private void TurnIncrement() {
-        if (reverse) {
-            turn--;
+    private void TurnIncrement() => turn = reverse ? (turn == 0 ? players.Count - 1 : --turn) : (turn == players.Count - 1 ? 0 : ++turn);
+
+    private bool CardEffect() {
+        switch(output.cardStack.GetCardRank(0)) {
+            case Rank.Eight:
+                chosenSuit = Suit.None;
+                suitButtons.ForEach(b => b.button.enabled = true);
+                break;
+
+            case Rank.Joker:
+                chosenPlayerIndex = -1;
+                playerButtons.ForEach(b => b.button.enabled = true);
+                break;
+
+            case Rank.Two:
+                TwoEffect();
+                return false;
+
+            case Rank.Queen:
+                reverse = !reverse;
+                TurnIncrement();
+                return false;
+
+            default:
+                TurnIncrement();
+                return false;
         }
 
-        else {
-            turn++;
-        }
+        return true;
     }
 
-    private void CardEffect() {
-        if (output.cardStack.GetCardRank(0) == Rank.Eight) {
-            ChooseSuit();
-            TurnIncrement();
-            // implement 8 (buttons)
+    private void TwoEffect() {
+        TurnIncrement();
+        for (int i = 1; i <= 2; i++) {
+            players[turn % players.Count].Hand.AddCardToBottom(deck.GetCard());
         }
 
-        else if (output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
-            // implement J (buttons)
-            int chosenPlayerIndex = 0;//ChoosePlayer();
-            turn = reverse ? turn - Math.Abs(turn % players.Count - chosenPlayerIndex) : turn + Math.Abs(turn % players.Count - chosenPlayerIndex);
-
-            for (int i = 1; i <= 4; i++) {
-                players[turn % players.Count].Hand.AddCardToBottom(deck.GetCard());
-            }
-        }
-
-        else if (output.cardStack.GetCardRank(0) == Rank.Two) {
-            TurnIncrement();
-            for (int i = 1; i <= 2; i++) {
-                players[turn % players.Count].Hand.AddCardToBottom(deck.GetCard());
-            }
-
-            TurnIncrement();
-        }
-
-        else if (output.cardStack.GetCardRank(0) == Rank.Queen) {
-            reverse = !reverse;
-            TurnIncrement();
-        }
-
-        else {
-            TurnIncrement();
-        }
+        TurnIncrement();
     }
 
-    // TODO
-    private Suit ChooseSuit() {
-        return 0;
+    private void ChooseSuit(Suit suit) {
+        Debug.Log(chosenSuit = suit);
+
+        suitButtons.ForEach(b => b.button.enabled = false);
+
+        TurnIncrement();
+
+        OnTurnEnd();
     }
 
-    // TODO
-    public void ChoosePlayer(int playerID) {
+    private void ChoosePlayer(int playerIndex) {
+        Debug.Log(chosenPlayerIndex = playerIndex);
 
-        return; //from the dead
+        suitButtons.ForEach(b => b.button.enabled = false);
+
+        turn = chosenPlayerIndex; 
+        // reverse ? turn - Math.Abs(turn % players.Count - chosenPlayerIndex) : turn + Math.Abs(turn % players.Count - chosenPlayerIndex);
+
+        for (int i = 1; i <= 4; i++) {
+            players[turn % players.Count].Hand.AddCardToBottom(deck.GetCard());
+        }
+
+        OnTurnEnd();
     }
+
 
     private bool InvalidPlace(Card play) {
 
         if (play.Rank != Rank.Eight) {
 
             if (output.cardStack.GetCardRank(0) == Rank.Eight) {
-                if (ChooseSuit() == Suit.Hearts || ChooseSuit() == Suit.Diamonds) {
+                if ((chosenSuit & (Suit) SuitCombo.Reds) != Suit.None) {
 
                     // returns if card is not chosen red suit or joker
-                    return (play.Suit & (ChooseSuit() | Suit.RedJoker)) == Suit.None;
+                    return (play.Suit & (chosenSuit | Suit.RedJoker)) == Suit.None;
                 }
 
-                else if (ChooseSuit() == Suit.Hearts || ChooseSuit() == Suit.Diamonds) {
+                else if ((chosenSuit & (Suit)SuitCombo.Blacks) != Suit.None) {
 
                     // returns if card is not chosen black suit or joker
-                    return (play.Suit & (ChooseSuit() | Suit.BlackJoker)) == Suit.None;
+                    return (play.Suit & (chosenSuit | Suit.BlackJoker)) == Suit.None;
                 }
             }
 
-            if (output.cardStack.GetCardSuit(0) == Suit.BlackJoker || output.cardStack.GetCardSuit(0) == Suit.RedJoker) {
+            if (output.cardStack.GetCardRank(0) == Rank.Joker) {
 
                 // returns if card is not the same color as output joker
-                return (( output.cardStack.GetCardSuit(0) == Suit.BlackJoker && (play.Suit & (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) == Suit.None ) ||
-                        ( output.cardStack.GetCardSuit(0) == Suit.RedJoker && (play.Suit & (Suit.Diamonds | Suit.Hearts | Suit.RedJoker)) == Suit.None ));
+                return ( output.cardStack.GetCardSuit(0) == Suit.BlackJoker && (play.Suit & (Suit) SuitCombo.AllBlacks) == Suit.None ) ||
+                       ( output.cardStack.GetCardSuit(0) == Suit.RedJoker && (play.Suit & (Suit) SuitCombo.AllReds) == Suit.None );
             }
 
-            if (play.Suit != Suit.RedJoker || play.Suit != Suit.BlackJoker) {
+            if (play.Rank != Rank.Joker) {
 
                 // returns if card is not same rank and not same suit
-                return (play.Rank != output.cardStack.GetCardRank(0) && play.Suit != output.cardStack.GetCardSuit(0));
+                return play.Rank != output.cardStack.GetCardRank(0) && play.Suit != output.cardStack.GetCardSuit(0);
             }
 
             else {
 
                 // returns if card joker is not the same color as output
-                return (( play.Suit == Suit.BlackJoker && (output.cardStack.GetCardSuit(0) & (Suit.Spades | Suit.Clubs | Suit.BlackJoker)) == Suit.None ) ||
-                        ( play.Suit == Suit.RedJoker && (output.cardStack.GetCardSuit(0) & (Suit.Hearts | Suit.Diamonds | Suit.RedJoker)) == Suit.None ));
+                return ( play.Suit == Suit.BlackJoker && (output.cardStack.GetCardSuit(0) & (Suit) SuitCombo.AllBlacks) == Suit.None ) ||
+                       ( play.Suit == Suit.RedJoker && (output.cardStack.GetCardSuit(0) & (Suit) SuitCombo.AllReds) == Suit.None );
             }
         }
 
-        else { // if card is eight
-            return false;
-        }
+        // if card is eight
+        return false;
     }
 }

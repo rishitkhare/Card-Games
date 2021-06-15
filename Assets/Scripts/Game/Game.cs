@@ -31,8 +31,8 @@ public abstract class Game : MonoBehaviour {
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         players = new List<Player>();
         AddPlayersToGame();
-        currentPlayer = players[0];
         turn = 0;
+        currentPlayer = players[turn];
         GameManager.gm.cardSelector.onCardPickup.AddListener(PickUp);
         GameManager.gm.cardSelector.onCardPlace.AddListener(Place);
     }
