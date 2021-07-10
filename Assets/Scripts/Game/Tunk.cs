@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using System.Linq;
 
 public class Tunk : Game {
-    public Deck output;
     public Deck exchange;
 
     public Button tunkCall;

@@ -277,7 +277,6 @@ MonoBehaviour:
   singleDeck: 1
   pointCap: 500
   game: 0
-  output: {fileID: 1096629053}
   ButtonPrefab: {fileID: 6567657877017453811, guid: 26b50dbd94a6b4340923130faf0a1dfa,
     type: 3}
 --- !u!1 &186057243
@@ -991,7 +990,7 @@ GameObject:
   - component: {fileID: 1096629053}
   m_Layer: 0
   m_Name: Output
-  m_TagString: Untagged
+  m_TagString: Output
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

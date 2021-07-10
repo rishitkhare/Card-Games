@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 
 public class BS : Game {
-    public Deck output;
-
     public Button BSCall;
     public List<Button> PlayerList;
 

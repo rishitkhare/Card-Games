@@ -1,10 +1,5 @@
 Card-Games TO-DO:
 
-- Added Flagged Suits (Blacks, Red, etc.)
-	- Change score calculation and deck generation
-
-- Hand.SetSizeofRenderedHand cardStack is null
-
 - Buttons for C8
 
 - SortStackBySuitAndRank

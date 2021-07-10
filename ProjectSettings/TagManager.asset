@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CardSelector
   - Deck
+  - Output
   layers:
   - Default
   - TransparentFX

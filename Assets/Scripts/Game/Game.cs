@@ -15,6 +15,7 @@ public abstract class Game : MonoBehaviour {
     protected List<Player> players;
     protected Player currentPlayer;
     protected Deck deck;
+    protected Deck output;
     protected int turn;
     public enum CardGame {
         Tunk,
@@ -29,6 +30,7 @@ public abstract class Game : MonoBehaviour {
     // Start is called before the first frame update
     void Awake() {
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
+        output = GameObject.FindGameObjectWithTag("Output").GetComponent<Deck>();
         players = new List<Player>();
         AddPlayersToGame();
         turn = 0;

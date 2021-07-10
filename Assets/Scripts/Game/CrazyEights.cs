@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 public class CrazyEights : Game {
-    public Deck output;
     private bool reverse;
     private Suit chosenSuit = Suit.None;
     private int chosenPlayerIndex = -1;

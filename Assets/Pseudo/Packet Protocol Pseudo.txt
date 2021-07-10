@@ -1,0 +1,38 @@
+struct PlayerTurnData:
+int playerturn;
+Move[] moves
+
+
+
+class/struct Move:
+	int 
+	Cardstack Giver
+	Cardstack Taker
+	int[] indexGive //might not matter, we'll see
+	int[] indexTake
+
+	ToString() {
+	   int index = give
+	}
+
+Logging - We need:
+ - which cards played (check)
+ - which cards picked up (check)
+ - if a player has affected another player (and how)
+ - whose turn it is
+
+"
+d = deck
+o = output
+p# = player
+
+
+
+"
+1
+p1 o {0,0,0,0,0,0} {0,0,0,0,0,0}
+d p1 {0} {0}
+"
+
+represents: Player 1's turn: player 1 gives top 6 cards in hand to top of output
+
