@@ -2,76 +2,98 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Deck : Interactable {
+using Rendering;
 
-    RenderCard render;
-    public Text textBox;
-    public bool initialFaceUp;
+namespace Framework
+{
+    public class Deck : Interactable
+    {
 
-    // Start is called before the first frame update
-    void Awake() {
-        cardStack = new CardStack(initialFaceUp);
+        RenderCard render;
+        public Text textBox;
+        public bool initialFaceUp;
 
-        render = gameObject.GetComponent<RenderCard>();
-    }
+        // Start is called before the first frame update
+        void Awake()
+        {
+            cardStack = new CardStack(initialFaceUp);
 
-    void Update() {
+            render = gameObject.GetComponent<RenderCard>();
+        }
 
-        render.isFlipped = !cardStack.IsFaceUp;
+        void Update()
+        {
 
-        if(textBox != null){
-            try {
-                Suit suit = cardStack.GetCardSuit(0);
-                Rank rank = cardStack.GetCardRank(0);
-                DeckColor back = cardStack.GetCardBack(0);
-                Card cardData = new Card(suit, rank, back);
+            render.isFlipped = !cardStack.IsFaceUp;
 
-                textBox.text = cardData.ToString();
+            if (textBox != null)
+            {
+                try
+                {
+                    Suit suit = cardStack.GetCardSuit(0);
+                    Rank rank = cardStack.GetCardRank(0);
+                    DeckColor back = cardStack.GetCardBack(0);
+                    Card cardData = new Card(suit, rank, back);
+
+                    textBox.text = cardData.ToString();
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    textBox.text = "";
+                }
             }
-            catch (System.ArgumentOutOfRangeException) {
-                textBox.text = "";
+
+            try
+            {
+                render.renderedCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0), cardStack.GetCardBack(0));
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                render.renderedCard = null;
             }
         }
 
-        try {
-            render.renderedCard = new Card(cardStack.GetCardSuit(0), cardStack.GetCardRank(0), cardStack.GetCardBack(0));
-        }
-        catch (System.ArgumentOutOfRangeException) {
-            render.renderedCard = null;
-        }
-    }
+        public void GenerateDeck(bool redDeck, bool fullDeck)
+        {
+            if (redDeck)
+            {
+                if (fullDeck)
+                {
+                    cardStack.GenerateDeck54(DeckColor.Red);
+                }
 
-    public void GenerateDeck(bool redDeck, bool fullDeck) {
-        if (redDeck) {
-            if (fullDeck) {
-                cardStack.GenerateDeck54(DeckColor.Red);
+                else
+                {
+                    cardStack.GenerateDeck52(DeckColor.Red);
+                }
             }
 
-            else {
-                cardStack.GenerateDeck52(DeckColor.Red);
+            else
+            {
+                if (fullDeck)
+                {
+                    cardStack.GenerateDeck54(DeckColor.Blue);
+                }
+
+                else
+                {
+                    cardStack.GenerateDeck52(DeckColor.Blue);
+                }
             }
         }
 
-        else {
-            if (fullDeck) {
-                cardStack.GenerateDeck54(DeckColor.Blue);
-            }
-
-            else {
-                cardStack.GenerateDeck52(DeckColor.Blue);
-            }
+        override
+        public Card GetCard(Vector2 point)
+        {
+            return cardStack.TakeTopCard();
         }
+
+        override
+        public void GiveCard(Card card)
+        {
+            cardStack.AddCardToTop(card);
+        }
+
+
     }
-
-    override
-    public Card GetCard(Vector2 point) {
-        return cardStack.TakeTopCard();
-    }
-
-    override
-    public void GiveCard(Card card) {
-        cardStack.AddCardToTop(card);
-    }
-
-
 }

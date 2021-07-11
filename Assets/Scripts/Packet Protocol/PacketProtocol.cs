@@ -4,8 +4,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-public class PacketProtocol {
-
+namespace Networking {
     public class PlayerTurnData {
         int playerturn;
         List<Move> moves;
@@ -23,9 +22,7 @@ public class PacketProtocol {
         override
         public string ToString() {
             string output = playerturn + "\n";
-            moves.ForEach(m => output += m);
-
-            return output.Substring(0, output.Length - 1);
+            return (output += String.Join<Move>("", moves)).Substring(0, output.Length - 1);
         }
     }
 
@@ -55,28 +52,25 @@ public class PacketProtocol {
             $"{IndexArrayToString(indexGive)} " +
             $"{IndexArrayToString(indexTake)}\n";
 
-            // "[GiverID] [TakerID] { {indexGiveList} }  { {indexTakeList} }"
-
         private string CardStackIDToString(CardStackID ud) => /*p*/ud.ToString();
 
         private string IndexArrayToString(List<int> pud2) {
-            string output = "";
-            pud2.ForEach(i => output += i + ",");
-
+            string output = String.Join<int>(",", pud2);
             return output.Substring(0, output.Length - 1);
         }
 
         private void ParsePacket(string packet) {
             string[] terms = packet.Split(' ');
-
-            Giver = (CardStackID) Enum.Parse(typeof(CardStackID), terms[0]);
-            Taker = (CardStackID)Enum.Parse(typeof(CardStackID), terms[1]);
-            indexGive = ParseIndexList(terms[2]);
-            indexTake = ParseIndexList(terms[3]);
+            (Giver, Taker, indexGive, indexTake) = (
+                (CardStackID)Enum.Parse(typeof(CardStackID), terms[0]),
+                (CardStackID)Enum.Parse(typeof(CardStackID), terms[1]),
+                ParseIndexList(terms[2]),
+                ParseIndexList(terms[3])
+            );
         }
 
         private List<int> ParseIndexList(string list) =>
-            list.Split(',').ToList().Select(s => int.Parse(s)).ToList();
+            list.Split(',').Select(s => int.Parse(s)).ToList();
     }
 
 }

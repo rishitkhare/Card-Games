@@ -1,0 +1,6 @@
+Namespaces:
+- Framework
+- Rendering
+- Game
+- Networking
+- Test
