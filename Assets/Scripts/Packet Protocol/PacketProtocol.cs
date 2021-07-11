@@ -10,9 +10,19 @@ public class PacketProtocol {
         int playerturn;
         List<Move> moves;
 
+        public PlayerTurnData(int playerTurn, List<Move> moves) => (this.playerturn, this.moves) = (playerTurn, moves);
+
+        public PlayerTurnData(string packet) {
+            var listOfMoves = packet.Split('\n').ToList();
+            (playerturn, moves) = (
+                Convert.ToInt32(listOfMoves[0]),
+                listOfMoves.GetRange(1, listOfMoves.Count - 1).Select(s => new Move(s)).ToList()
+            );
+        }
+
         override
         public string ToString() {
-            string output = "" + playerturn;
+            string output = playerturn + "\n";
             moves.ForEach(m => output += m);
 
             return output.Substring(0, output.Length - 1);
@@ -33,26 +43,19 @@ public class PacketProtocol {
         List<int> indexGive;
         List<int> indexTake;
 
-        public Move(int giver, int taker, List<int> iGive, List<int> iTake) {
-            Giver = (CardStackID) giver;
-            Taker = (CardStackID) taker;
-            indexGive = iGive;
-            indexTake = iTake;
-        }
+        public Move(int giver, int taker, List<int> iGive, List<int> iTake) =>
+            (Giver, Taker, indexGive, indexTake) = ((CardStackID)giver, (CardStackID)taker, iGive, iTake);
 
-        public Move(string packet) {
-            ParsePacket(packet);
-        }
+        public Move(string packet) => ParsePacket(packet);
 
         override
-        public string ToString() {
-            return $"{CardStackIDToString(Giver)} " +
-                $"{CardStackIDToString(Taker)} " +
-                $"{IndexArrayToString(indexGive)} " +
-                $"{IndexArrayToString(indexTake)}\n";
+        public string ToString() => 
+            $"{CardStackIDToString(Giver)} " +
+            $"{CardStackIDToString(Taker)} " +
+            $"{IndexArrayToString(indexGive)} " +
+            $"{IndexArrayToString(indexTake)}\n";
 
             // "[GiverID] [TakerID] { {indexGiveList} }  { {indexTakeList} }"
-        }
 
         private string CardStackIDToString(CardStackID ud) => /*p*/ud.ToString();
 
